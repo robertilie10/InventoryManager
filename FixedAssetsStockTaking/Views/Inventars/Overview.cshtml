@@ -1,0 +1,682 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<style>
+    .details {
+        width: 96.6%;
+        height: 12%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 21%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .det {
+        width: 20%;
+        height: 4rem;
+        background-color: white;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+    }
+
+
+        .det:nth-child(1) {
+            margin-right: auto;
+        }
+
+        .det:nth-child(3) {
+            margin-left: auto;
+        }
+
+    .cont-det {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        position: absolute;
+    }
+
+    .top-div {
+        position: relative;
+        width: 37%;
+        height: 5.8rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .subtop-div {
+        position: relative;
+        width: 27%;
+        height: 4.5rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .Logo {
+        font-size: 450%;
+        font-weight: bold;
+        text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    }
+
+    .textt1 {
+        font-size: 200%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+    }
+
+    .textt2 {
+        font-size: 100%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
+
+
+
+    .table {
+        position: absolute;
+        left: 0;
+    }
+
+    .left {
+        width: 23.2%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        background-color: #aeecf7;
+        border-radius: 0.5rem;
+    }
+
+    #piechart {
+        width: 100%;
+        height: 70%;
+        position: relative;
+        top: 20%;
+    }
+
+    .container-body {
+        width: 96.6%;
+        height: 63%;
+        position: absolute;
+        top: 56%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-top: 2%;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+    }
+
+    .right {
+        width: 76%;
+        background-color: #aaecf7;
+        height: 100%;
+        position: relative;
+        float: right;
+        border-radius: 0.5rem;
+    }
+
+    .box-button {
+        position: relative;
+        width: 20rem;
+        height: 7.5rem;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        margin-left: 3rem;
+        margin-right: 4rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .title-top {
+        color: white;
+        text-align: center;
+        border: 2px solid white;
+        font-size: 1.5rem;
+    }
+
+    .table-inventory::-webkit-scrollbar-track {
+        border-radius: 0.125rem;
+        background-color: #aeecf7;
+    }
+
+    .table-inventory::-webkit-scrollbar {
+        width: 0.2rem;
+        height: 2rem;
+        border-radius: 0.125rem;
+    }
+
+    .table-inventory::-webkit-scrollbar-thumb {
+        border-radius: 0.125rem;
+        background-color: #1194ad;
+    }
+
+    .down-buttons {
+        margin: 0 auto;
+        position: relative;
+        top: 16%;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        height: 10%;
+    }
+
+    .button {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.018rem black;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+        .button:hover {
+            border: 0.12rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+        }
+
+    .table-inventory {
+        position: relative;
+        height: 99.8%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        overflow-y: auto;
+        margin-left: 1%;
+    }
+
+
+    .inventare {
+        height: 42%;
+        width: 12%;
+        margin-top: 1.7%;
+        margin-bottom: 1.4%;
+        margin-left: 2%;
+        background-color: white;
+        margin-right: 2.4%;
+        padding: 0;
+        border: 0;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+    }
+
+    .separator {
+        height: 1%;
+        width: 60%;
+        background-color: black;
+        position: relative;
+    }
+
+    .linie{
+        height: 5%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .imagini {
+        position: relative;
+        width: 15%;
+    }
+
+    .search {
+        width: 95%;
+        height: 12%;
+        position: absolute;
+        top: 8%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        border: none;
+        font-size: 2.7rem;
+        text-align: center;
+        background-image: url(/img/lupa.png);
+        background-repeat: no-repeat;
+        background-size: 18% 100%;
+        transition: border-color .35s ease-in-out,box-shadow .35s ease-in-out;
+    }
+
+        .search:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #1196ad;
+        }
+
+
+    @@media only screen and (max-width: 1366px) {
+        .procent{
+            font-size: 1.2rem !important;
+        }
+        .scanned{
+            font-size: 0.8rem !important;
+        }
+        .total{
+            font-size: 0.8rem !important;
+        }
+        .search{
+            font-size: 2rem !important;
+        }
+
+        body {
+            font-size: 14px;
+        }
+
+        .top-div {
+            max-width: 30rem;
+            font-size: 3rem;
+            max-height: 3.8rem;
+        }
+
+        .subtop-div {
+            max-width: 20rem;
+            font-size: 1rem;
+            max-height: 1.9rem;
+        }
+
+        .det {
+            max-height: 3rem;
+        }
+        .Logo {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .textt1 {
+            font-size: 1.3rem;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33);
+        }
+
+        .textt2 {
+            font-size: 0.7rem;
+        }
+
+        .detailsValue {
+            font-size: 180% !important;
+        }
+
+        .detailsTitle {
+            font-size: 80% !important;
+        }
+
+        .title-inventory-value{
+            font-size:1.6rem!important;
+        }
+    }
+
+    .detailsValue {
+        font-size: 200%;
+        font-weight: bold;
+        color: #585d61;
+        top: 18%;
+        position: relative;
+    }
+
+    .detailsTitle {
+        margin-left: 0.5%;
+        position: absolute;
+        font-weight: bold;
+        color: #292c2e;
+        font-size: 100%;
+    }
+    .title-inventory{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        height: 19%;
+    }
+
+    .title-inventory-value{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        text-align: center;
+        font-size: 2rem;
+        border-top-left-radius: 1.5rem;
+        border-top-right-radius: 1.5rem;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+    }
+    .procent{
+        position: relative;
+        font-size: 1.5rem;
+        height: 15%;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .scanned{
+        height: 10%;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.1rem;
+        position: relative;
+    }
+
+    .total{
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.1rem;
+        position: relative;
+    }
+    .centru-imag{
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+<div class="top-div">
+    <p class="Logo">LOGO HERE</p>
+</div>
+
+<div class="subtop-div">
+    <p class="textt1">Inventory Manager</p>
+    <p class="textt2">v.1.0</p>
+</div>
+
+<body style="background-color:#1196ad;">
+</body>
+<div class="details">
+
+    <div class="cont-det" style="width:95%;">
+        @functions {
+            public string TruncateName(string name)
+            {
+                if (name.Length > 15)
+                {
+                    return name.Substring(0, 13) + "...";
+                }
+                else
+                {
+                    return name;
+                }
+            }
+        }
+        <div class="det" style="text-align:center;">
+            <div class="detailsTitle">Created by:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreatedBy)</p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Name:</div>
+            <p class="detailsValue">
+                @TruncateName(Model.Name)
+            </p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Created on:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreateDate)</p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container-body">
+
+    <div class="right">
+        <div class="table-inventory">
+            @{
+                var uniqueValues = new HashSet<string>();
+
+                foreach (var item in ViewData["MijlocFix2"] as List<MijlocFix>)
+                {
+                    uniqueValues.Add(item.Line);
+                }
+            }
+            @if (ViewData["ExtraLines"] != null)
+            {
+                foreach (var extra in ViewData["ExtraLines"] as List<ExtraLine>)
+                {
+                    uniqueValues.Add(extra.MFLine);
+                }
+                var inProgress = 0;
+                var notStarted = 0;
+                var toCheck = 0;
+                var complete = 0;
+
+
+                @foreach (var value in uniqueValues)
+                {
+                    var scanned = 0;
+                    var total = 0;
+                    var rate = 0;
+                    var hey = 0;
+                    var verificat = 0;
+                    var ok = 0;
+                    var to_check = 0;
+
+                    @foreach (var x in ViewData["MijlocFix2"] as List<MijlocFix>)
+                    {
+                        if ((x.Line == value && (x.FoundLine == x.Line || x.FoundLine == "-")) || x.FoundLine == value)
+                        {
+                            total++;
+                            if (x.FoundQ != 0)
+                            {
+                                scanned++;
+                            }
+                            if (x.Status == "Checked")
+                            {
+                                verificat++;
+                            }
+                            if (x.Status == "To check")
+                            {
+                                to_check++;
+                            }
+                        }
+                    }
+
+
+                    if (verificat != 0 && to_check == 0)
+                    {
+                        ok = 1;
+                    }
+                    else
+                    {
+                        ok = 0;
+                    }
+
+                    if (to_check != 0)
+                    {
+                        ok = 2;
+                    }
+
+                    if (total != 0)
+                    {
+                        rate = (100 * scanned) / total;
+                    }
+                    if (rate == 100 && ok == 1)
+                    {
+                        complete++;
+                    }
+                    if (to_check != 0)
+                    {
+                        toCheck++;
+                    }
+                    if (rate > 0 && rate < 100)
+                    {
+                        inProgress++;
+                    }
+                    if (rate == 0)
+                    {
+                        notStarted++;
+                    }
+                    ViewData["ToCheckValue"] = toCheck;
+                    ViewData["InProgressValue"] = inProgress;
+                    ViewData["NotStartedValue"] = notStarted;
+                    ViewData["CompleteValue"] = complete;
+
+
+                    <div class="inventare">
+                        
+                            <div class="title-inventory">
+                                <div class="title-inventory-value">@value
+                                </div>
+                            </div>
+                            <div class="procent">
+                                    @rate%
+                            </div>
+                            <div class="linie"><div class="separator"></div></div>
+                            <div class="scanned">
+                                SCANNED:
+                            </div>
+                            <div class="scanned">
+                                @scanned
+                            </div>
+                        <div class="linie"><div class="separator"></div></div>
+                            <div class="total">
+                                TOTAL:
+                            </div>
+                            <div class="total">
+                                @total
+                            </div>
+                        <div class="linie"><div class="separator"></div></div>
+                            @if (ok == 1)
+                            {
+                             <div class="centru-imag">
+                                <div class="imagini">
+                                    <img src="\img\check.png" style="width: 100%;"></img>
+                                </div>
+                            </div>
+                                <div style="display:none">verificat VERIFICAT</div>
+                            }
+                            else if (ok == 2)
+                            {
+                            <div class="centru-imag">
+                                <div class="imagini">
+                                    <img src="\img\attention.png" style="width: 100%;"></img>
+                                </div>
+                            </div>
+                                <div style="display:none">progress</div>
+                            }
+                            else                                
+                            {
+                            <div class="centru-imag">
+                                <div class="imagini">
+                                    <img src="\img\warning_red.png" style="width: 100%;"></img>
+                                </div>
+                            </div>
+                                <div style="display:none">nu</div>
+                            }
+                        
+                    </div>
+                }
+            }
+        </div>
+
+
+    </div>
+    <div class="left">
+        <form>
+            <input class="search" type="text" placeholder="Search.." />
+        </form>
+        <div id="piechart"></div>
+        <div class="down-buttons">
+            <a asp-action="Details" style="height:100%; width:100%;"  asp-route-id=@Model.ID><button class="button">BACK</button></a>
+        </div>
+    </div>
+
+</div>
+@{
+    var toCheckValue = ViewData["ToCheckValue"] as int? ?? 0;
+    var completeValue = ViewData["CompleteValue"] as int? ?? 0;
+    var inProgressValue = ViewData["InProgressValue"] as int? ?? 0;
+    var notStartedValue = ViewData["NotStartedValue"] as int? ?? 0;
+}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var toCheck = @toCheckValue;
+        var complete = @completeValue;
+        var inProgress = @inProgressValue;
+        var notStarted = @notStartedValue;
+
+
+        var data = google.visualization.arrayToDataTable([
+            ['Action', 'Value'],
+            ['To Check', toCheck],
+            ['In progress', inProgress],
+            ['Not started', notStarted],
+            ['Complete', complete]
+        ]);
+
+        var options = {
+            //width: '100%',
+            //height: '100%',
+            title: ' ',
+            backgroundColor: {
+                'fill': 'none',
+                'opacity': 100,
+            },
+            legend: {
+                position: 'top',
+                alignment: 'start',
+                maxLines: 2,
+                textStyle: { fontSize: 14 }
+            },
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+    }
+
+    $(window).resize(function(){
+        drawChart();
+    })
+
+    function filterCards(searchText) {
+        var searchValue = searchText.toLowerCase().trim();
+        $('.inventare').each(function () {
+            var cardContent = $(this).text().toLowerCase();
+            if (cardContent.indexOf(searchValue) !== -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('.search').on('keyup', function () {
+            var searchText = $(this).val();
+            filterCards(searchText);
+        });
+    });
+
+    function handleKeyPress(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            const searchItem = document.querySelector('.search');
+            searchItem.innerText = '';
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,129 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.dropbtn {
+    background-color: white;
+    color: black;
+    padding: 16px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-radius: .25rem;
+}
+
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: #ddd;
+    }
+
+.dropdown {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    border-radius: .25rem;
+    background-color: #f6f6f6;
+    border: 1px solid #ddd;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 0;
+    z-index: 1;
+}
+
+    .dropdown-content button {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        width: 100%;
+        background-color: #f6f6f6;
+        border: none
+    }
+
+.dropdown button:hover {
+    background-color: grey;
+}
+
+.show {
+    display: block;
+}
+
+.l_btn {
+    list-style-type: none;
+    text-align: center;
+    width: 100%;
+}
+
+
+.details-container{
+    width: 700px;
+}
+
+.inventory-btn:hover{
+    background-color: white;
+}
+
+.fade-in {
+    animation: fadeInAnimation 0.5s ease-in;
+    opacity: 1;
+}
+
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Stiluri pentru efectul "fade out" */
+.fade-out {
+    animation: fadeOutAnimation 0.5s ease-in;
+    opacity: 0;
+}
+
+@keyframes fadeOutAnimation {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+
+footer{
+    line-height:300%!important;
+}
+
+
+
+
+
+

@@ -1,0 +1,157 @@
+﻿@model FixedAssetsStockTaking.Models.ExtraLine
+
+@{
+    Layout = "";
+}
+
+
+<div class="modal-fade" id="ModalCreate" style="height:100%">
+    <div class="modal-dialog" style="height:100%">
+
+        <div class="modal-content" id="delete">
+
+            <h3 style=" position: relative;
+                        top: 13%;
+                        font-size: 2rem;
+                        text-align: center;">
+                Are you sure you want to delete line @Model.MFLine ?
+            </h3>
+
+            <div style="height:100%;width:100%">
+                <form asp-action="Delete" style="height:100%;width:100%">
+                    <div class="form-group" style="display: none;">
+                        <input type="hidden" asp-for="InventarID" />
+                        <input type="hidden" asp-for="MFLine" />
+                    </div>
+                    <div class="down-buttons">
+                        <input  type="submit" value="YES" id="yes" />
+                        <button type="button" value="CLOSE" id="no" data-bs-dismiss="modal"
+                                style="">
+                            NO
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<style>
+    .down-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 70%;
+        height:25%;
+        left: 15%;
+        top: 25%;
+        position: relative;
+    }
+
+    @@media only screen and (max-width: 1366px) {
+        #delete {
+            width: 29rem !important;
+            left: 1rem !important;
+        }
+    }
+
+    #yes {
+        width: 39%;
+        height: 100%;
+        box-shadow: 0 0 0.313rem 0.018rem black;
+        text-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        border: 0.17rem solid #1196ad;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+    #form-control {
+        display: block;
+        width: 100%;
+        height: 3rem;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #1196ad;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+
+    #no {
+        width: 39%;
+        height: 100%;
+        box-shadow: 0 0 0.313rem 0.018rem black;
+        text-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        border: 0.17rem solid #1196ad;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+
+        #no:hover {
+            border: 0.12rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+        }
+
+    #yes:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+    }
+
+    #delete {
+        position: relative;
+        display: block;
+        width: 37rem;
+        left: -10%;
+        pointer-events: auto;
+        background-color: white;
+        background-clip: padding-box;
+        border: 1px solid #1196ad;
+        border-radius: 1.5rem;
+        outline: 0;
+        height: 30%;
+        top: 27%;
+    }
+
+    .modal::-webkit-scrollbar {
+        display: none;
+    }
+
+</style>
+
+
+@*
+<div>
+    <h4>ExtraLine</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Inventar)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Inventar.ID)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="InventarID" />
+        <input type="hidden" asp-for="MFLine" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>*@

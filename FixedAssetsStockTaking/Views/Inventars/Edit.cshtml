@@ -1,0 +1,69 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Inventar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClosedBy" class="control-label"></label>
+                <input asp-for="ClosedBy" class="form-control" />
+                <span asp-validation-for="ClosedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreateDate" class="control-label"></label>
+                <input asp-for="CreateDate" class="form-control" type="date" placeholder="Create date" value="@Model.CreateDate.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClosedDate" class="control-label"></label>
+                <input asp-for="ClosedDate" class="form-control" type="date" placeholder="Closed date" value="@Model.ClosedDate.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="ClosedDate" class="text-danger"></span>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="AfisareDropdown(event)" class="dropbtn">Status: <span id="statusButton">SELECT</span></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <li class="l_btn"><button onclick="setStatus('OPEN')">OPEN</button></li>
+                    <li class="l_btn"><button onclick="setStatus('CLOSED')">CLOSED</button></li>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Status" class="form-control" type="hidden" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="button" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

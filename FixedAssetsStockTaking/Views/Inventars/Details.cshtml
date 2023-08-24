@@ -1,0 +1,718 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+    <style>
+        .box {
+            width: 20rem;
+            height: 20rem;
+            background-color: white;
+            margin: 3rem;
+            border-radius: 1.8rem;
+            border: 0.17rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.068rem black;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #585d61;
+            overflow: hidden;
+        }
+
+        .boxC {
+            width: 20rem;
+            height: 20rem;
+            background-color: #9b9c9e;
+            margin: 3rem;
+            border-radius: 1.8rem;
+            border: 0.17rem solid #1196ad;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #585d61;
+            overflow: hidden;
+        }
+
+        .second-buttons{
+            width: 22rem;
+            height: 5rem;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+            text-align: center;
+            background-color: white;
+            border-radius: 1rem;
+        border: 0.17rem solid #1196ad;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #585d61;
+        }
+
+        .second-buttonsC {
+            width: 22rem;
+            height: 5rem;
+            box-shadow: 0 0 0.313rem 0.068rem black;
+            text-align: center;
+            background-color: #9b9c9e;
+            border-radius: 1rem;
+            border: 0.17rem solid #1196ad;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #585d61;
+        }
+
+            .box:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.238rem #1196ad;
+            }
+        .container-body {
+            width: 95%;
+            height: 60%;
+            background-color: #aeecf7;
+            position: absolute;
+            top: 57%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: 2rem;
+            box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+            border-radius: 0.5rem;         
+        }
+
+        .cont-principal-buttons{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .details{
+            width: 95%;
+            height: 12%;
+            background-color: #aeecf7;
+            position: absolute;
+            top: 22%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+            border-radius: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+    .top-div {
+        position: relative;
+        width: 37%;
+        height: 5.8rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .subtop-div {
+        position: relative;
+        width: 27%;
+        height: 4.5rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+        .det{
+            width: 20%;
+            height: 4rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            border: 0.17rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.068rem black;
+        }
+
+
+        .det:nth-child(1) {
+            margin-right: auto;
+        }
+
+        .det:nth-child(3) {
+            margin-left: auto;
+        }
+
+        .cont-det{
+            display: flex;
+            justify-content: space-between;
+            margin: 0 auto;
+            position: absolute;
+        }
+
+        .principal-buttons{
+            top: -14%;
+            position: relative;
+        }
+
+        .back:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+        }
+
+        .close:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+        }
+
+        .delete:hover {
+            border: 0.12rem solid red;
+            box-shadow: 0 0 0.313rem 0.238rem red;
+        }
+
+
+        .modal, .modal-edit {
+        display: none;
+        position: fixed;
+        top: 50%;
+        height: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 35%;
+        background-color: white;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        padding: 2%;
+        z-index: 9999;
+        overflow-y: hidden;
+        }
+
+
+        .modal-delete, .modal-ed {
+            position: absolute;
+            top: 0rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .body.modal-open {
+            overflow: hidden;
+        }
+
+        .modal-background {
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9998;
+        }
+
+        .yes, .no{
+            width: 33%;
+            height: 5rem;
+            box-shadow: 0 0 0.313rem 0.018rem black;
+            text-align: center;
+            background-color: white;
+            border-radius: 1rem;
+            border: 0.17rem solid #1196ad;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #585d61;
+        }
+
+        .yes:hover{
+                border: 0.12rem solid red;
+                box-shadow: 0 0 0.313rem 0.138rem red;
+        }
+
+        .no:hover {
+            border: 0.12rem solid #0d7182;
+            box-shadow: 0 0 0.313rem 0.138rem #0d7182;
+        }
+
+    .restricted {
+        position: absolute;
+        height: 30%;
+        top: 30%;
+        width: 100%;
+    }
+
+    .text1 {
+        font-size: 800%;
+        font-family: Verdana;
+        color: darkred;
+        font-weight: bold;
+        text-align: center;
+        position: relative;
+        text-shadow: 0 9px 10px rgb(0 0 0 / 0.5);
+    }
+
+    .Logo {
+        font-size: 450%;
+        font-weight: bold;
+        text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    }
+
+    .textt1 {
+        font-size: 200%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+    }
+
+    .textt2 {
+        font-size: 100%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
+
+    @@media only screen and (max-width: 1366px) {
+
+        .yes, .no{
+            max-height: 3.5rem;
+        }
+
+        .modal, .modal-edit{
+
+        }
+
+        .sure{
+            font-size: 3.5rem !important;
+        }
+
+        .text1{
+            font-size:700%!important;
+        }
+        .second-buttons, .second-buttonsC{
+            max-width: 18rem;
+            max-height: 4rem;
+            font-size: 1.6rem;
+            position: relative;
+        }
+        .box, .boxC{
+            max-width: 14rem;
+            max-height: 14rem;
+            font-size: 1.7rem;
+        }
+        
+
+        .det{
+            max-height:3rem;
+        }
+
+        .Logo{
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .textt1{
+            font-size: 1.3rem;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33);
+        }
+        .textt2{
+            font-size: 0.7rem;
+        }
+            body {
+                font-size: 14px;
+            }
+
+            .top-div {
+            max-width: 30rem;
+            font-size: 3rem;
+            max-height: 3.8rem;
+            }
+
+            .subtop-div {
+            max-width: 20rem;
+            font-size: 1rem;
+            max-height: 1.9rem;
+            }
+            .detailsValue{
+                font-size:180%!important;
+            }
+            .detailsTitle{
+                font-size:80%!important;
+            }
+    }
+
+
+    .detailsValue {
+        font-size: 200%;
+        font-weight: bold;
+        color: #585d61;
+        top: 18%;
+        position: relative;
+    }
+
+    .detailsTitle{
+        margin-left: 0.5%;
+        position: absolute;
+        font-weight: bold;
+        color: #292c2e;
+        font-size: 100%;
+    }
+
+    .sure{
+        text-align: center;
+        font-size: 4rem;
+        position: relative;
+        top: -1rem;
+        text-shadow: 0 8px 15px rgb(0 0 0 / 0.33);
+    }
+    </style>
+<div class="top-div">
+    <p class="Logo">LOGO HERE</p>
+</div>
+
+<div class="subtop-div">
+    <p class="textt1">Inventory Manager</p>
+    <p class="textt2">  v.1.0</p>
+</div>
+<body style="background-color:#1196ad;">
+</body>
+<div class="details">
+
+    <div class="cont-det" style="width:95%;">
+        @functions {
+            public string TruncateName(string name)
+            {
+                if (name.Length > 15)
+                {
+                    return name.Substring(0, 13) + "...";
+                }
+                else
+                {
+                    return name;
+                }
+            }
+        }
+       <div class="det" style="text-align:center;">
+            <div class="detailsTitle">Created by:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreatedBy)</p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Name:</div>
+            <p class="detailsValue">
+                @TruncateName(Model.Name)
+            </p>
+       </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Created on:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreateDate)</p>
+       </div>
+
+    </div>
+
+</div>
+
+@if (Model.Status == "CLOSED")
+{
+    <div class="container-body">
+        <div class="cont-principal-buttons">
+
+            <a class="principal-buttons" asp-action="Overview" asp-route-id="@Model?.ID"><button class="box">OVERVIEW</button></a>
+            <button disabled class="boxC">SCAN ITEMS</button>
+            <button disabled class="boxC">SUPERVISOR CHECKS</button>
+            <a class="principal-buttons" asp-action="Download" asp-route-id="@Model?.ID"><button class="box">DOWNLOAD</button></a>
+
+        </div>
+        <div style="
+                display: flex;
+                justify-content: space-between;
+                margin: 0 auto;">
+            <a asp-action="Index">
+                <button class="second-buttons back" style="float:left; bottom: 0;position: absolute;margin: 2rem;">
+                    BACK
+                </button>
+            </a>
+            <a>
+                <button disabled class="second-buttonsC closed" style="float:right; bottom: 0;position: absolute; right: 0;margin: 2rem;">
+                    <p>CLOSED</p>
+                    <p style="position: relative;top:-2rem;">On @Model.ClosedDate.ToString("yyyy-MM-dd")</p>
+                </button>
+            </a>
+        </div>
+    </div>
+}
+@if(Model.Status == "OPEN")
+{
+    var i = 0;
+    if (ViewData["Superadmins"] != null && ((List<SuperAdmin>)ViewData["Superadmins"]).Count != 0)
+    {
+        i++;
+        foreach (var sup in ViewData["Superadmins"] as List<SuperAdmin>)
+        {
+            <div class="container-body">
+                <div class="cont-principal-buttons">
+
+                    <a class="principal-buttons" asp-action="Overview" asp-route-id="@Model?.ID"><button class="box">OVERVIEW</button></a>
+                    <a class="principal-buttons" asp-action="Inventory" asp-route-id="@Model?.ID"><button class="box">SCAN ITEMS</button></a>
+                    <a class="principal-buttons" asp-action="Supervisor" asp-route-id="@Model?.ID"><button class="box">SUPERVISOR CHECKS</button></a>
+                    <a class="principal-buttons" asp-action="Settings" asp-route-id="@Model?.ID"><button class="box">SETTINGS</button></a>
+
+                </div>
+                <div style="
+                display: flex;
+                justify-content: space-between;
+                margin: 2%;">
+                    <a asp-action="Index">
+                        <button class="second-buttons back">
+                            BACK
+                        </button>
+                    </a>
+                    <a>
+                        <button class="second-buttons delete">
+                            DELETE
+                        </button>
+                    </a>
+                    <a>
+                        <button class="second-buttons close">
+                            CLOSE INVENTORY
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="modal-background"></div>
+            <div class="modal">
+                <p class="sure">Are you sure?</p>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="ID" />
+                    <input style="float:left; bottom: 0rem;position: relative;margin: 1rem;" type="submit" value="YES" class="yes" />
+
+                </form>
+                <button style="float:right; bottom: 0rem;position: relative;margin: 1rem;" class="no">NO</button>
+            </div>
+
+            <div class="modal-background-e"></div>
+            <div class="modal-edit">
+                <p class="sure">Are you sure?</p>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ID" />
+                    <div class="form-group" style="display:none">
+                        <label asp-for="ClosedDate" class="control-label"></label>
+                        <input asp-for="ClosedDate" class="form-control" type="date" value="@Model.ClosedDate.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="ClosedDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label asp-for="ClosedBy" class="control-label"></label>
+                        <input asp-for="ClosedBy" class="form-control" value="@Model.ClosedBy" />
+                        <span asp-validation-for="ClosedBy" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label asp-for="Status" class="control-label"></label>
+                        <input asp-for="Status" class="form-control" value="@Model.Status" />
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" value="@Model.Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label asp-for="CreatedBy" class="control-label"></label>
+                        <input asp-for="CreatedBy" class="form-control" value="@Model.CreatedBy" />
+                        <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label asp-for="CreateDate" class="control-label"></label>
+                        <input asp-for="CreateDate" class="form-control" type="date" value="@Model.CreateDate.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="CreateDate" class="text-danger"></span>
+                    </div>
+                    <input style="float:left; bottom: 0rem;position: relative;margin: 1rem;" type="submit" value="YES" class="yes" />
+                </form>
+
+                <button style="float:right; bottom: 0rem;position: relative;margin: 1rem;" class="no">NO</button>
+            </div>
+        }
+    }
+    if (i == 0)
+    {
+        if (ViewData["Users"] != null && ((List<User>)ViewData["Users"]).Count != 0)
+        {
+            foreach (var user in ViewData["Users"] as List<User>)
+            {
+                if (user.OrderRank == 1)
+                {
+                    <div class="container-body">
+                        <div class="cont-principal-buttons">
+
+                            <a class="principal-buttons" asp-action="Overview" asp-route-id="@Model?.ID"><button class="box">OVERVIEW</button></a>
+                            <a class="principal-buttons" asp-action="Inventory" asp-route-id="@Model?.ID"><button class="box">SCAN ITEMS</button></a>
+                            <a class="principal-buttons" asp-action="Supervisor" asp-route-id="@Model?.ID"><button class="box">SUPERVISOR CHECKS</button></a>
+                            <a class="principal-buttons" asp-action="Settings" asp-route-id="@Model?.ID"><button class="box">SETTINGS</button></a>
+
+                        </div>
+                        <div style=" display: flex; justify-content: space-between; margin: 2%;">
+                            <a asp-action="Index">
+                                <button class="second-buttons back">
+                                    BACK
+                                </button>
+                            </a>
+                            <a>
+                                <button class="second-buttons delete">
+                                    DELETE
+                                </button>
+                            </a>
+                            <a>
+                                <button class="second-buttons close">
+                                    CLOSE INVENTORY
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="modal-background"></div>
+                    <div class="modal">
+                        <p style="text-align: center;
+                        font-size: 4rem;
+                        position: relative;
+                        top: 0rem;
+                        text-shadow: 0 8px 15px rgb(0 0 0 / 0.33);">Are you sure?</p>
+                        <form asp-action="Delete">
+                            <input type="hidden" asp-for="ID" />
+                            <input style="float:left; bottom: 0rem;position: relative;margin: 1rem;" type="submit" value="YES" class="yes" />
+
+                        </form>
+                        <button style="float:right; bottom: 0rem;position: relative;margin: 1rem;" class="no">NO</button>
+                    </div>
+
+                    <div class="modal-background-e"></div>
+                    <div class="modal-edit">
+                        <p style="text-align: center;
+                        font-size: 4rem;
+                        position: relative;
+                        top: 0rem;
+                        text-shadow: 0 8px 15px rgb(0 0 0 / 0.33);">Are you sure?</p>
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="ID" />
+                            <div class="form-group" style="display:none">
+                                <label asp-for="ClosedDate" class="control-label"></label>
+                                <input asp-for="ClosedDate" class="form-control" type="date" value="@Model.ClosedDate.ToString("yyyy-MM-dd")" />
+                                <span asp-validation-for="ClosedDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="ClosedBy" class="control-label"></label>
+                                <input asp-for="ClosedBy" class="form-control" value="@Model.ClosedBy" />
+                                <span asp-validation-for="ClosedBy" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="Status" class="control-label"></label>
+                                <input asp-for="Status" class="form-control" value="@Model.Status" />
+                                <span asp-validation-for="Status" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" value="@Model.Name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CreatedBy" class="control-label"></label>
+                                <input asp-for="CreatedBy" class="form-control" value="@Model.CreatedBy" />
+                                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CreateDate" class="control-label"></label>
+                                <input asp-for="CreateDate" class="form-control" type="date" value="@Model.CreateDate.ToString("yyyy-MM-dd")" />
+                                <span asp-validation-for="CreateDate" class="text-danger"></span>
+                            </div>
+                            <input style="float:left; bottom: 0rem;position: relative;margin: 1rem;" type="submit" value="YES" class="yes" />
+                        </form>
+
+                        <button style="float:right; bottom: 0rem;position: relative;margin: 1rem;" class="no">NO</button>
+                    </div>
+                }
+                else if (user.OrderRank == 0)
+                {
+                    <div class="container-body">
+                        <div class="cont-principal-buttons">
+
+                            <a class="principal-buttons" asp-action="Overview" asp-route-id="@Model?.ID"><button class="box">OVERVIEW</button></a>
+                            <a class="principal-buttons" asp-action="Inventory" asp-route-id="@Model?.ID"><button class="box">SCAN ITEMS</button></a>
+                            <button disabled class="boxC">SUPERVISOR CHECKS</button>
+                            <button disabled class="boxC">SETTINGS</button>
+                        </div>
+                        <div style=" display: flex; justify-content: space-between; margin: 2%;">
+                            <a asp-action="Index">
+                                <button class="second-buttons back">
+                                    BACK
+                                </button>
+                            </a>
+                            <a>
+                                <button disabled class="second-buttonsC deleteC">
+                                    DELETE
+                                </button>
+                            </a>
+                            <a>
+                                <button disabled class="second-buttonsC closeC">
+                                    CLOSE INVENTORY
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            <div class="container-body">
+
+                <div class="restricted">
+                    <p class="text1">RESTRICTED ACCESS!</p>
+                </div>
+
+            </div>
+        }
+    }
+}
+
+<script>
+
+
+    $(document).ready(function () {
+        //open
+        $('.delete').click(function () {
+            $('.modal-background, .modal').fadeIn();
+            $('body').addClass('modal-open');
+        });
+
+        
+        //close
+        $('.modal-delete, .modal-background').click(function () {
+            $('.modal-background, .modal').fadeOut();
+            $('body').removeClass('modal-open');
+        });
+
+        $('.no, .modal-background').click(function () {
+            $('.modal-background, .modal').fadeOut();
+            $('body').removeClass('modal-open');
+        });
+    });
+
+
+    $(document).ready(function () {
+        //open
+        $('.close').click(function () {
+            $('.modal-background, .modal-edit').fadeIn();
+            $('body').addClass('modal-open');
+        });
+        //close
+        $('.modal-delete, .modal-background').click(function () {
+            $('.modal-background, .modal-edit').fadeOut();
+            $('body').removeClass('modal-open');
+        });
+
+        $('.no, .modal-background-e').click(function () {
+            $('.modal-background, .modal-edit').fadeOut();
+            $('body').removeClass('modal-open');
+        });
+    });
+
+</script>

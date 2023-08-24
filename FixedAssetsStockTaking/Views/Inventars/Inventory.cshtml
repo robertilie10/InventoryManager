@@ -1,0 +1,588 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+
+@{
+    ViewData["Title"] = "Inventory";
+}
+
+
+
+
+<div class="top-div">
+    <p class="Logo">LOGO HERE</p>
+</div>
+
+<body style="background-color:#1196ad;">
+</body>
+            
+
+<div class="container">
+
+    <div class="left">
+
+        <form>
+            <div class="left-top">
+                @foreach (var item in ViewData["Inventar"] as List<Inventar>)
+                {
+                    <input data-inventory-id=@item.ID type="text" value="SCANATI QR" id="filterInput" onfocus="clearInputValue(this)" onblur="restoreInputValue(this)" />
+                }
+            </div>
+        </form>
+
+        <div class="table">
+            <div id="filteredRowsDiv">
+                @*PARIAL  
+                VIEW*@
+            </div>
+        </div>
+
+        <div class="down-buttons">
+            @foreach (var item in ViewData["Inventar"] as List<Inventar>)
+                {
+                <a style="width: 27.5%; height:100%;" asp-action="Details" asp-route-id=@item.ID><button class="button">BACK</button></a>
+                }
+            <a style="width: 27.5%;height:100%"><button id="finishButton" class="button">FINISH</button></a>
+        </div>
+
+    </div>
+
+    <div class="right">
+
+        <div class="box-button" style="align-items:center">
+            <div class="line-title">
+                LINE
+            </div>
+            <div id="selectedRowDiv" style="margin-top: 14%;text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);text-align:center; color: white; font-size:3rem; font-weight: bold;"></div>         
+            <div id="photoLock"></div>
+
+        </div>
+
+        <div class="box-button" style="margin-top: 12%;">
+            <div class="right-title">
+                REMAINING
+            </div>
+
+            <div class="calculus" style="    position: absolute;
+                text-align: center;
+                font-size: 3rem;
+                color: white;
+                font-weight: bold;
+                margin-top: 5%;
+                height: 7.5rem;
+                text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)">
+                <span class="numbers" id="remainingCount"></span>
+            </div>
+
+            <div style="position: absolute;
+                right: 0;
+                bottom: 0;">
+                <img class="imgs" style="height: 4.8rem;" src="\img\attention.png" alt="check"></img>
+            </div>
+
+        </div>
+        <div class="box-button" style="margin-top: 12%">
+            <div class="right-title">
+                EXTRAS
+            </div>
+
+            <div class="calculus" style="    position: absolute;
+                text-align: center;
+                font-size: 3rem;
+                color: white;
+                font-weight: bold;
+                margin-top: 5%;
+                height: 7.5rem;
+                text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)">
+                <span class="numbers" id="extrasCount"></span>
+            </div>
+
+            <div style="position: absolute;
+                right: 0;
+                bottom: 0;">
+                <img class="imgs" style="height: 4.8rem;" src="\img\add.png" alt="check"></img>
+            </div>
+
+        </div>
+        <div class="box-button" style="margin-top: 12%">
+            <div class="right-title">
+                            FOUND
+            </div>
+
+            <div class="calculus" style="    position: absolute;
+                text-align: center;
+                font-size: 3rem;
+                color: white;
+                font-weight: bold;
+                margin-top: 5%;
+                height: 7.5rem;
+                text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)">
+                <span class="numbers" id="foundCount"></span>
+            </div>
+
+            <div style="position: absolute;
+                right: 0;
+                bottom: 0;">
+                <img class="imgs" style="height: 4.8rem;" src="\img\check.png" alt="check"></img>
+            </div>
+
+        </div>
+        <div class="box-button" style="margin-top: 12%">
+            <div class="right-title">
+                            TOTAL
+            </div>
+
+            <div class="calculus" style="    position: absolute;
+                text-align: center;
+                font-size: 3rem;
+                color: white;
+                font-weight: bold;
+                margin-top: 5%;
+                height: 7.5rem;
+                text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)">
+                <span class="numbers" id="totalCount"></span>
+            </div>
+
+            <div style="position: absolute;
+                right: 0;
+                bottom: 0;
+                margin-right: 0.2rem">
+                <img class="imgs" style="height: 4.8rem;" src="\img\equal.png" alt="check"></img>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal-background-e"></div>
+<div class="modal-edit">
+    <p id="modalTitle" style="text-align: center;
+                        font-size: 4rem;
+                        position: relative;
+                        top: 0rem;
+                        text-shadow: 0 8px 15px rgb(0 0 0 / 0.33);">Are you sure?</p>
+    <form id="editMijlocForm" style="width:100%; height: 36%;;" asp-action="EditMijloc" method="post">
+        <div class="yesno">
+            <input type="hidden" name="line" id="selectedLine" />
+            <button type="submit" class="yes">YES</button>
+        <button class="no">NO</button>
+        </div>
+    </form>
+
+    
+</div>
+
+
+<style>
+    .yesno{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin-top: 5%;
+        justify-content: space-between;
+    }
+
+    .right-title{
+        position: absolute;
+        right: 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: white;
+        letter-spacing: 0.05rem;
+        margin-right: 0.5rem;
+    }
+
+    .line-title{
+        position: absolute;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        text-align: center;
+        color: white;
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    .Logo {
+        font-size: 250%;
+        font-weight: bold;
+        text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    }
+
+    @@media only screen and (max-width: 1366px) {
+
+        .ggg th {
+            font-size: 1.2rem !important;
+        }
+
+        .rowdiv {
+            font-size: 2rem !important;
+            margin-top: 0.5rem;
+        }
+
+        #modalTitle{
+            font-size: 3rem !important;
+            top: -1rem !important;
+        }
+
+        .numbers{
+            font-size:2.5rem!important;
+        }
+
+        .imgs{
+            height:3.5rem!important;
+            margin:0.2rem!important;
+        }
+
+        .right-title{
+            font-size:0.8rem!important;
+            margin-right: 0.6rem;
+            margin-top: 0.2rem;
+        }
+
+        .line-title{
+            font-size:2rem!important;
+        }
+
+        .top-div {
+            max-width: 30rem;
+            font-size: 2rem!important;
+            max-height: 3.8rem;
+        }
+
+        .Logo {
+            font-size: 2rem!important;
+            margin: 0;
+        }
+    }
+
+    .left form{
+        width: 100%;
+        height: 7%;
+    }
+
+    #filterInput:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.1rem white, 0 0 0 0.15rem white;
+    }
+
+    #filterInput{
+        transition: border-color .35s ease-in-out,box-shadow .35s ease-in-out;
+        border-radius: 0.8rem;
+    }
+    .modal-edit {
+        display: none;
+        position: fixed;
+        top: 50%;
+        height: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 35%;
+        max-width: 90%;
+        background-color: white;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        padding: 2rem;
+        z-index: 9999;
+    }
+
+    .modal-background-e {
+        background-color: rgba(0, 0, 0, 0.6);
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9998;
+    }
+    .yes, .no {
+        width: 37%;
+        height: 100%;
+        text-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.018rem black;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+    .no:hover{
+            border: 0.12rem solid #0d7182;
+            box-shadow: 0 0 0.313rem 0.138rem #0d7182;
+    }
+
+        .yes:hover {
+            border: 0.12rem solid #0d7182;
+            box-shadow: 0 0 0.313rem 0.138rem #0d7182;
+        }
+
+    .table::-webkit-scrollbar {
+        display: none;
+    }
+
+    .top-div {
+        position: relative;
+        width: 37%;
+        height: 5.8rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .left {
+        width: 73.3%;
+        height: 80%;
+        position: absolute;
+        left: 0;
+        margin-left: 5%;
+    }
+
+    .right {
+        width: 21.5%;
+        height: 80%;
+        position: absolute;
+        right: 0;
+        ;
+    }
+
+    .left-top {
+        width: 100%;
+        height: 100%;
+        background-color: #aeecf7;
+        position: relative;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.8rem;
+        text-align: center;
+    }
+
+    .table {
+        position: relative;
+        left: 0;
+        margin-top:1%;
+        overflow-y: auto;
+        height: 83%;
+        background-color: #aeecf7;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+    }
+
+    .title-top {
+        color: white;
+        text-align: center;
+        border: 2px solid white;
+        font-size: 1.5rem;
+    }
+
+    .left-top input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background-color: transparent;
+        font-weight: bold;
+        text-align: center;
+        color: white;
+        font-family: Verdana;
+        font-size: 2rem;
+    }
+
+    .box-button {
+        position: relative;
+        width: 78%;
+        height: 15.5%;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        margin-left: 12%;
+        border-radius: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .box-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(222, 200, 200, 0.5);
+            z-index: -1;
+            border-radius: 1.5rem;
+        }
+
+    .button {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.238rem #e3e6e5;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+        .button:hover {
+            border: 0.12rem solid #094b57;
+            box-shadow: 0 0 0.313rem 0.238rem #094b57
+        }
+
+        .button:nth-child(1) {
+            margin-right: auto;
+        }
+
+        .button:nth-child(3) {
+            margin-left: auto;
+        }
+
+    .down-buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 54%;
+        margin-left: 23%;
+        margin-right: 23%;
+        bottom: 0;
+        position: relative;
+        height:8%;
+    }
+</style>
+
+
+<script type="text/javascript">
+
+        var currentLine = "";    
+        var MijloaceLinie = [];
+
+    $(document).ready(function () {
+        //open
+        $('#finishButton').click(function () {
+            $('.modal-background-e, .modal-edit').fadeIn();
+            $('body').addClass('modal-open');
+        });
+        //close
+        $('.modal-delete, .modal-background').click(function () {
+            $('.modal-background-e, .modal-edit').fadeOut();
+            $('body').removeClass('modal-open');
+        });
+
+        $('.no, .modal-background-e').click(function () {
+            $('.modal-background-e, .modal-edit').fadeOut();
+            $('body').removeClass('modal-open');
+        });
+
+        $('#editMijlocForm').on('submit', function (event) {
+            event.preventDefault(); 
+
+            var inventoryId = $("#filterInput").data("inventory-id");
+            var selectedLine = $("#selectedRowDiv").text().trim();
+            console.log(selectedLine);
+            console.log("here");
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("EditMijloc")',
+                data: { line: selectedLine, id: inventoryId },
+                success: function () {
+                    
+                    $('.modal-background-e, .modal-edit').fadeOut();
+                    $('body').removeClass('modal-open');
+                    location.reload();
+                },
+                error: function () {
+                    // Aici puteți gestiona eroarea dacă cererea a eșuat
+                }
+
+            });
+        });
+    });
+
+
+
+
+
+    $("#filterInput").on("keypress", function (event) {
+        var inventoryId = $("#filterInput").data("inventory-id");
+        if (event.which === 13) {
+            var value = $(this).val().trim();
+            if(value.length == 3)
+                currentLine = value;
+            if(currentLine === "")
+             {currentLine = value;}                        
+            if (value !== "" && currentLine !== "") {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("FilterRows")",
+                    data: { value: value, line: currentLine, id: inventoryId },
+                    success: function (result) {
+                        $("#filteredRowsDiv").html(result);     
+                        updateCalculusValues();
+                    },
+                    error: function () {
+                        alert("Invalid QR.");
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("RowDiv")",
+                    data: { value: value, id: inventoryId },
+                    success: function (result) {
+                        $("#selectedRowDiv").html(result);
+                    },
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("photoLock")",
+                    data: { value: value, id: inventoryId },
+                    success: function (result) {
+                        $("#photoLock").html(result);
+                    },
+                });
+            }    
+            $(this).val('');
+            return false;
+        }
+    });
+    function updateCalculusValues() {
+        var inventoryId = $("#filterInput").data("inventory-id");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Calculus")",
+            data: { value: currentLine, id: inventoryId },
+            success: function (result) {
+                MijloaceLinie = result;
+                var remainingCount = MijloaceLinie.filter(function (item) {
+                    return item.OrderRank === 0;
+                }).length;
+                $("#remainingCount").text(remainingCount);
+
+                var extrasCount = MijloaceLinie.filter(function (item) {
+                    return item.OrderRank === 3;
+                }).length;
+                $("#extrasCount").text(extrasCount);
+
+                var foundCount = MijloaceLinie.filter(function (item) {
+                    return item.OrderRank === 1;
+                }).length;
+                $("#foundCount").text(foundCount);
+
+                var totalCount = foundCount + extrasCount + remainingCount;
+                $("#totalCount").text(totalCount);
+            },
+        });
+    }
+    
+    function clearInputValue(input) {
+        if (input.value === "SCANATI QR") {
+            input.value = "";
+        }
+    }
+
+    function restoreInputValue(input) {
+        if (input.value === "") {
+            input.value = "SCANATI QR";
+        }
+    }
+
+</script>

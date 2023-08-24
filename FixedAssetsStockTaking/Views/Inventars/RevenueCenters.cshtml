@@ -1,0 +1,403 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<head>
+   
+</head>
+<body style="background-color:#1196ad;">
+</body>
+<div class="top-div">
+    <p class="Logo">LOGO HERE</p>
+</div>
+<div class="subtop-div">
+    <p class="textt1">Inventory Manager</p>
+    <p class="textt2">  v.1.0</p>
+</div>
+<div class="details">
+
+    <div class="cont-det" style="width:95%;">
+        @functions {
+            public string TruncateName(string name)
+            {
+                if (name.Length > 15)
+                {
+                    return name.Substring(0, 13) + "...";
+                }
+                else
+                {
+                    return name;
+                }
+            }
+        }
+        <div class="det" style="text-align:center;">
+            <div class="detailsTitle">Created by:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreatedBy)</p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Name:</div>
+            <p class="detailsValue">
+                @TruncateName(Model.Name)
+            </p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Created on:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreateDate)</p>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-body">
+
+    <div class="table" style="overflow-y:auto; height: 78%; margin-top: 1%;">
+    <table style="
+    border-collapse: collapse;
+    border: 1px solid white;
+    background-color: #1196ad;
+    position: relative;
+    margin-left: 9%;
+    margin-right: 9%;">
+        <tr style="color: white;">
+            <th style="width: 8%;padding-bottom: 1rem;font-weight:bold;">#</th>
+            <th style="width: 25%;padding-bottom: 1rem;font-weight:bold;">Name</th>
+            <th style="width: 33%;padding-bottom: 1rem;font-weight:bold;">Status</th>
+            <th style="width: 18%;padding-bottom: 1rem;font-weight:bold;">Actions</th>
+        </tr>
+            @{
+                var i = 0;
+            }
+
+            @if (ViewData["ExtraLines"] != null)
+            {
+                @foreach (var line in ViewData["ExtraLines"] as List<ExtraLine>)
+                {
+                    i++;
+                    <tr>
+                        <th class="title-top" style="border: 3px solid white;font-weight: normal;background-color: #aeecf7; color: black;width:16rem">@i</th>
+                        <th class="title-top" style="border: 3px solid white;font-weight: normal;background-color: #aeecf7; color: black;width:24rem">@line.MFLine</th>
+                        <th class="title-top" style="border: 3px solid white;font-weight: normal;background-color: #aeecf7; color: black;width:24rem">Added by @Environment.UserName</th>
+                        <th class="title-top" style="border: 3px solid white;font-weight: normal;background-color: #aeecf7; color: black;width:22.7rem">
+                            <div style="position: relative;" class="add item">
+                                <a onclick="Delete('@line.MFLine', @line.InventarID)">
+                                    <img style="height: 3rem; width:3rem; cursor: pointer;" src="\img\delete.png" alt="delete"></img>
+                                </a>
+                            </div>
+                        </th>
+                    </tr>
+                }
+            }
+            @if(i==0)
+            {
+                <tr>
+                    <th class="nothing" style="border: 3px solid white;font-weight: normal;background-color: #aeecf7; color: black;width:16rem"></th>
+                    <th class="nothing" style="border: 3px solid white;font-weight: normal;background-color: #aeecf7; color: black;width:24rem"></th>
+                    <th class="nothing" style="border: 3px solid white;font-weight: normal;background-color: #aeecf7; color: black;width:24rem"></th>
+                    <th class="nothing" style="border: 3px solid white;font-weight: normal;background-color: #aeecf7; color: black;width:22.7rem"></th>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+    <div class="down-buttonss" @*style="position: relative;width: 100%;display: flex;align-items: center;justify-content: space-around; height:16%"*@>
+        <a style="height:100%;width:16%;display: flex;justify-content:center; text-decoration: none;" asp-action="Settings" asp-route-id=@Model.ID>
+            <button class="second-buttons back" style="position: relative;">
+                BACK
+            </button>
+        </a>
+        <a style="height:100%;width:16%;display: flex;justify-content:center; text-decoration: none;">
+            <button onclick="OpenModal(@Model.ID)" class="second-buttons back" style="position: relative;">
+                ADD NEW
+            </button>
+        </a>
+    </div>
+</div>
+
+<div class="modal fade" id="CreateLineModal" role="dialog" style="height:100%">
+    <div class="modal-dialog" id="createlineModelDialog" style="height:100%">
+        @*VIEW*@
+    </div>
+</div>
+
+<div class="modal fade" id="DeleteLineModal" role="dialog" style="height:100%">
+    <div class="modal-dialog" id="deletelineModelDialog" style="height:100%">
+        @*VIEW*@
+    </div>
+</div>
+
+<style>
+
+    .down-buttonss{
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: 15%;
+        margin: 0 auto;
+        bottom: 4%;
+        position: relative;
+    }
+    @@media only screen and (max-width: 1366px) {
+
+        .table th{
+            font-size:1.7rem!important;
+        }
+
+        .detailsValue {
+            font-size: 180% !important;
+        }
+
+        .detailsTitle {
+            font-size: 80% !important;
+        }
+
+        .det {
+            height: 3rem !important;
+        }
+
+        .Logo {
+            font-size: 3rem !important;
+            margin: 0;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        .textt1 {
+            font-size: 1.3rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        .textt2 {
+            font-size: 0.7rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        body {
+            font-size: 14px;
+        }
+
+        .top-div {
+            max-width: 30rem;
+            font-size: 3rem !important;
+            max-height: 3.8rem;
+        }
+
+        .subtop-div {
+            max-width: 20rem;
+            font-size: 1rem !important;
+            max-height: 1.9rem;
+        }
+
+        .detailsValue {
+            font-size: 180% !important;
+        }
+
+        .detailsTitle {
+            font-size: 80% !important;
+        }
+    
+    }
+
+    .table::-webkit-scrollbar-track {
+        border-radius: 0.125rem;
+        background-color: lightgray;
+    }
+
+    .table::-webkit-scrollbar {
+        width: 0.2rem;
+        height: 2rem;
+        border-radius: 0.125rem;
+    }
+
+    .table::-webkit-scrollbar-thumb {
+        border-radius: 0.125rem;
+        background-color: gray;
+    }
+
+    th {
+        border-collapse: collapse;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: normal;
+        border: 3px solid white;
+    }
+
+    .title-top{
+        border: 1px solid white;
+    }
+
+    .nothing{
+        border: 1px solid #aeecf7;
+    }
+
+    .second-buttons {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+    .box:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.238rem #1196ad;
+    }
+
+    .container-body {
+        width: 95%;
+        height: 60%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 57%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-top: 2rem;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+    }
+
+    .cont-principal-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .detailsValue {
+        font-size: 200%;
+        font-weight: bold;
+        color: #585d61;
+        top: 18%;
+        position: relative;
+    }
+
+    .detailsTitle {
+        margin-left: 0.5%;
+        position: absolute;
+        font-weight: bold;
+        color: #292c2e;
+        font-size: 100%;
+    }
+
+    .Logo {
+        font-size: 450%;
+        font-weight: bold;
+        text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    }
+
+    .textt1 {
+        font-size: 200%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+    }
+
+    .textt2 {
+        font-size: 100%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
+
+    .cont-det {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        position: absolute;
+    }
+
+    .det {
+        width: 20%;
+        height: 4rem;
+        background-color: white;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+    }
+
+    .details {
+        width: 95%;
+        height: 12%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 22%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .top-div {
+        position: relative;
+        width: 37%;
+        height: 5.8rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .subtop-div {
+        position: relative;
+        width: 27%;
+        height: 4.5rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+        .det:nth-child(1) {
+            margin-right: auto;
+        }
+
+        .det:nth-child(3) {
+            margin-left: auto;
+        }
+
+    .back:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.238rem #1196ad;
+    }
+
+    .save:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.238rem #1196ad;
+    }
+
+</style>
+
+<script>
+
+    function OpenModal(itemId) {
+
+        $.get("@Url.Action("Create", "ExtraLines")?id=" + itemId,
+            function (data) {
+                $("#createlineModelDialog").html(data);
+            });
+        $("#CreateLineModal").modal("show");
+    }
+
+    function Delete(line, itemId) {
+        console.log(itemId)
+        $.get("@Url.Action("Delete", "ExtraLines")?line=" + encodeURIComponent(line) + "&id=" + itemId,
+            function (data) {
+                $("#deletelineModelDialog").html(data);
+            });
+        $("#DeleteLineModal").modal("show");
+    }
+
+</script>

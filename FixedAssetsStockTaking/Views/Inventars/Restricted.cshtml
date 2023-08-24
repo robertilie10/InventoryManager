@@ -1,0 +1,201 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+@{
+    ViewData["Title"] = "Restricted";
+    Layout = "";
+}
+
+
+<style>
+
+    body{
+        background-color: #1194ad;
+    }
+
+    .top-div {
+        position: relative;
+        width: 30%;
+        height: 10%;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        font-family: Verdana;
+    }
+
+    .subtop-div {
+        position: relative;
+        width: 22%;
+        height: 5%;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        font-family: Verdana;
+    }
+    
+    .container-body{
+        width: 95%;
+        height: 70%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-top: 2%;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+    }
+
+    .sad{
+        position: relative;
+        height: 55%;
+        width: 20%;
+        top: 40%;
+        left: 79%;
+    }
+
+    .restricted{
+        position: absolute;
+        height: 12rem;
+        top: 5rem;
+        width: 100%;
+    }
+
+    .text1{
+        font-size: 7rem;
+        font-family: Verdana;
+        color: darkred;
+        font-weight: bold;
+        text-align: center;
+        position: relative;
+        top: -5rem;
+        text-shadow: 0 9px 10px rgb(0 0 0 / 0.5);
+    }
+
+    .oops {
+        position: absolute;
+        height: 56%;
+        top: 38%;
+        width: 54%;
+        left: 23%;
+    }
+
+    .text{
+        position: relative;
+        text-align: end;
+        height: 18%;
+        margin: 0;
+        font-weight: bold;
+        font-family: Verdana;
+        text-shadow: 0 9px 10px rgb(0 0 0 / 0.5);
+    }
+
+    .Logo {
+        font-size: 450%;
+        font-weight: bold;
+        text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    }
+
+    .textt1 {
+        font-size: 200%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+    }
+
+    .textt2 {
+        font-size: 100%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
+
+
+    .doit{
+        font-size: 5rem;
+        height: 26%;
+        margin-top: 6%;
+        margin-bottom: 2%;
+    }
+
+    @@media only screen and (max-width: 1366px) {
+
+        .text1{
+            font-size: 4rem!important;
+        }
+
+        .doit{
+            font-size: 3rem !important;
+        }
+
+        .treit{
+            font-size: 1.5rem !important;
+        }
+
+        .patrut{
+            font-size: 1.5rem !important;
+        }
+
+        .Logo {
+            font-size: 3rem !important;
+            margin: 0;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        .textt1 {
+            font-size: 1.3rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        .textt2 {
+            font-size: 0.7rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        body {
+            font-size: 14px;
+        }
+
+        .top-div {
+            max-width: 30rem;
+            font-size: 3rem !important;
+            max-height: 3.8rem;
+        }
+
+        .subtop-div {
+            max-width: 20rem;
+            font-size: 1rem !important;
+            max-height: 1.9rem;
+        }
+    }
+
+</style>
+
+<div class="top-div">
+    <p class="Logo">LOGO HERE</p>
+</div>
+<div class="subtop-div">
+    <p class="textt1">Inventory Manager</p>
+    <p class="textt2">  v.1.0</p>
+</div>
+
+
+<div class="container-body">
+    <div class="restricted">
+        <p class="text1">RESTRICTED ACCESS!</p>
+    </div>
+    <div class="sad">
+        <img style="height: 100%;width: 100%;" src="/img/sad.png"/>
+    </div>
+    <div class="oops">
+        <p class="text doit">Oops!</p>
+        <p class="text treit" style="font-size:2rem">
+            It seems you do not have access to this webpage!
+        </p>
+        <p class="text patrut" style="font-size:2rem">
+            Please contact your administrator!
+        </p>
+    </div>
+</div>

@@ -1,0 +1,429 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+
+@{
+    Layout = "";
+}
+<style>
+   
+</style>
+
+<div class="modal-fade" id="ModalCreate">
+    <div class="modal-dialog">
+
+        <div class="modal-content" style="background-color:rgba(255, 255, 255, 0.9)" id="files">           
+
+            <h1>INCARCARE FISIER</h1>
+                @foreach (var item in ViewData["Inventar"] as List<Inventar>)
+                {                      
+                    <div id="itemId" data-id="@item.ID" style="display: none;"></div>
+                    <form id="uploadForm" asp-controller="Inventars" asp-route-id="@item.ID" method="post" enctype="multipart/form-data" class="formclass">
+                        <input type="file" name="file" id="file" style="display: none;" />
+                        <div class="container-top">
+                            <label for="file" class="file-style">
+                               Încărcați fișier
+                            </label>
+                            <div class="file-info">
+                                <input type="text" id="filename" readonly value="Niciun fișier selectat">
+                            </div>
+                        </div>                
+                    <button type="submit" id="upload" style="font-weight: bold;" onclick="handleFormSubmit(); return false;">Upload</button>
+                        <p id="message"></p>
+                            <p id="viewHere" style="
+                                   position: absolute;
+                                   top: 40%;
+                                   font-size: 2rem;
+                                   font-weight: bold;
+                                   display: none;">
+                                Fisierul a fost incarcat cu succes in baza de date!
+                            </p>
+                    </form>
+    
+                }
+
+                <div id="linie"></div>
+                                                                  
+                @if (ViewData["MijlocFix"] != null)
+                {
+                    <p id="text1">
+                        ACEST INVENTAR CONTINE DATE!!!
+                    </p>
+                    <p id="text2">
+                        INCARCAREA UNUI FISIER NOU VA MODIFICA DATELE DEJA INCARCATE!!!
+                    </p>
+                }
+                @if (ViewData["MijlocFix"] == null)
+                {
+                    <div id="null"></div>                 
+                }
+                               
+                <div id="loader"></div>
+                
+             <h2>DESCARCARE FISIER</h2>
+                @foreach(var aux in ViewData["Inventar"] as List<Inventar>)
+                {
+                    <a class="descarca" asp-action="Download" asp-route-id=@aux.ID>DESCARCA</a>
+                }
+
+            <button type="button" value="CLOSE" class="create-btn" id="modal-close" data-bs-dismiss="modal">
+                CLOSE
+            </button>
+        </div>
+    </div>
+</div>
+<style>
+
+    a:hover{
+        color: #585d61;
+    }
+
+    .descarca{
+        width: 14%;
+        height: 8%;
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 3px 5px rgb(0 0 0 / 0.5);
+        font-size: 1.5rem;
+        font-weight: bold;
+        position: relative;
+        text-align: center;
+        top: -17%;
+        text-decoration: none;
+        padding: 0.5%;
+        color: #585d61;
+        background-color: #efefef;
+    }
+    #text2{
+        position: absolute;
+        font-size: 2rem;
+        font-weight: bold;
+        left: 16%;
+        top: 43%;
+        display: block;
+    }
+
+    #text1{
+        position: absolute;
+        font-size: 2rem;
+        font-weight: bold;
+        left: 33%;
+        top: 37%;
+        display: block;
+    }
+
+    .container-top{
+        width: 50%;
+        height: 10%;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @@media only screen and (max-width: 1366px) {
+
+        #modal-close{
+            font-size:1.7rem!important;
+        }
+
+        #upload, .descarca{
+            font-size:1.2rem!important
+        }
+
+        #loader{
+            width: 4rem !important;
+            height: 4rem !important;
+        }
+
+        #text1, #text2{
+            font-size:1.5rem!important;
+        }
+
+        .modal-content h1{
+            font-size:2rem!important;
+        }
+
+        .modal-content h2{
+            font-size: 2rem !important;
+        }
+        .file-style{
+            font-size:1.2rem!important;
+        }
+
+        .file-info{
+            font-size: 1.2rem !important;
+        }
+
+        #upload{
+
+        }
+    }
+
+    #uploadForm{
+        position: relative;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column;
+    }
+
+    .download{
+        width: 14rem;
+        height: 4rem;
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 3px 5px rgb(0 0 0 / 0.5);
+        font-size: 1.5rem;
+        font-weight: bold;
+        position: absolute;
+        left: -2rem;
+        top: -3rem;
+        color: #585d61;
+    }
+
+    .descarca:hover{
+            border: 0.12rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.138rem #1196ad
+    }
+
+    h2{
+        left: 37%;
+        position: fixed;
+        top: 53%;
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    h1{
+        position: relative;
+        top: 2%;
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    #modal-close{
+        position: relative;
+        top: -5%;
+        width: 20%;
+        height: 10%;
+        text-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        border: 0.17rem solid #1196ad;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+    #modal-close:hover {
+            border: 0.12rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.138rem #1196ad
+    }
+
+    #loader {
+        display: none;
+        left: 47%;
+        top: 38%;
+        position: absolute;
+        border: 1rem solid white;
+        border-top: 1rem solid #1196ad;
+        border-radius: 50%;
+        width: 5rem;
+        height: 5rem;
+        animation: spin 2s linear infinite;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    #files {
+        position: fixed;
+        top: 50%;
+        height: 83%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 83.5%;
+        /* background-color: transparent; */
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        z-index: 9999;
+        border: 0.3rem solid #1196ad;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #filename {
+        border: none;
+        background: transparent;
+        width: 100%;
+        outline: none;
+        text-align: center;
+        font-weight: bold;
+        font-family: Verdana;
+        color: #585d61;
+    }
+
+    .upload-section {
+        width: 30rem;
+        position: relative;
+        left: 35%;
+        top: 7rem;
+    }
+
+    #file {
+        display: none;
+    }
+
+    #upload {
+        width: 14%;
+        height: 8%;
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 3px 5px rgb(0 0 0 / 0.5);
+        font-size: 1.5rem;
+        position: relative;
+        top: -22%;
+        color: #585d61;
+    }
+
+    .file-style {
+        cursor: pointer;
+        padding: 1.8%;
+        border-radius: 5px;
+        position: relative;
+        height: 100%;
+        font-size: 1.6rem;
+        background-color: white;
+        border: 0.1rem solid #1196ad;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+        .file-style:hover {
+            border: 0.12rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.138rem #1196ad
+        }
+
+    #upload:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.138rem #1196ad
+    }
+
+    .file-info {
+        padding: 1.6%;
+        border-radius: 5px;
+        position: relative;
+        height: 100%;
+        width: 70%;
+        background-color: white;
+        font-size: 1.6rem;
+        border: 0.1rem solid #1196ad;
+    }
+
+        .file-info input[type="text"] {
+            border: none;
+            background: transparent;
+            width: 150px;
+            outline: none;
+        }
+
+        .file-info button {
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            color: #007bff;
+        }
+
+            .file-info button:hover {
+                text-decoration: underline;
+            }
+
+    .formclass {
+        padding: 0;
+    }
+
+
+    #linie {
+        width: 80%;
+        left: 10%;
+        height: 0.1rem;
+        background-color: black;
+        position: absolute;
+        top: 50%;
+    }
+
+    .container.custom-container {
+        background-color: #DECCCC;
+        opacity: 1;
+    }
+</style>
+ <script>
+
+    function handleFormSubmit() {
+
+        var p1 = document.getElementById("text1");
+        var p2 = document.getElementById("text2");
+
+            $(p1).hide();
+            $(p2).hide();
+     
+
+        var itemId = document.getElementById("itemId").getAttribute("data-id");
+        var fileInput = document.getElementById("file");
+        var files = fileInput.files[0];
+
+        var loadingBar = document.getElementById("loader");
+        console.log(loadingBar);
+        $(loadingBar).show();
+
+        console.log("itemId:", itemId);
+        console.log("files:", files);
+        
+        var formData = new FormData();
+        formData.append("file", files);
+        formData.append("id", itemId);
+
+        for (var key of formData.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Upload")",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                $(loadingBar).hide();
+                console.log("INNNNNNN");
+                console.log(result);
+                $("#viewHere").show();
+            },
+            error: function () {
+                $(loadingBar).hide();
+                alert("Fisier invalid.");
+            }
+        });
+    }
+
+    document.getElementById("file").addEventListener("input", function () {
+        var filename = this.files[0].name;
+        var fileinfo = document.getElementById("filename");
+        fileinfo.value = filename;
+
+        var checkImage = document.getElementById("checkImage");
+        checkImage.style.display = "block"; // Afișăm imaginea "check" când a fost selectat un fișier
+    });
+
+
+ </script>

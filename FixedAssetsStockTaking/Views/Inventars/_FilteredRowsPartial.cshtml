@@ -1,0 +1,79 @@
+﻿@model List<MijlocFix>
+
+@if (Model != null && Model.Count > 0)
+{   
+    <table class="ggg" style="border-collapse: collapse;
+    border: 0.3rem solid white;
+    background-color: #1196ad;
+    height: 2rem;
+    box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+    margin: 0.5rem;
+            ">
+        <tr >
+            <th class="title-top" style="width:15rem">CODE</th>
+            <th class="title-top" style="width:40rem">ITEM DESCRIPTION</th>
+            <th class="title-top" style="width:28rem">OBSERVATIONS</th>
+            <th class="title-top" style="width:4.7rem">&nbsp;</th>
+        </tr>
+        @foreach (var mijlocFix in Model)
+        {
+            <tr style="margin-bottom:5rem">
+                <th class="title-top" style="width:15rem; background-color: #aeecf7; color: black;">@mijlocFix.COD.Trim()</th>
+                <th class="title-top" style="width:40rem; background-color: #aeecf7; color: black;">@mijlocFix.Description</th>
+                <th id="CodHere" class="title-top" style="width:28rem; background-color: #aeecf7; color: black;">@mijlocFix.DisplayComment</th>
+                @if (@mijlocFix.OrderRank == 2)
+                {
+                    <th id="LogoHere" class="title-top" style="width:4.7rem; background-color: #aeecf7; color: black;">
+                        <img src="\img\check.png" alt="Found" style="width: 60%; height: auto;" />
+                    </th>
+                }
+                else if (@mijlocFix.OrderRank == 0)
+                {
+                    <th id="LogoHere" class="title-top" style="width:4.7rem; background-color: #aeecf7; color: black;">
+                        <img src="\img\attention.png" alt="Found" style="width: 60%; height: auto;" />
+                    </th>
+
+                }
+                else if (@mijlocFix.OrderRank == 1)
+                {
+                    <th id="LogoHere" class="title-top" style="width:4.7rem; background-color: #aeecf7; color: black;">
+                        <img src="\img\warning_red.png" alt="Found" style="width: 60%; height: auto;" />
+                    </th>
+
+                }
+                else if (@mijlocFix.OrderRank == 3)
+                {
+                    <th id="LogoHere" class="title-top" style="width:4.7rem; background-color: #aeecf7; color: black;">
+                        <img src="\img\add.png" alt="Found" style="width: 60%; height: auto;" />
+                    </th>
+                    
+                }
+                else
+                {
+                    <th id="LogoHere" class="title-top" style="width:4.7rem; background-color: #aeecf7; color: black;">
+                        <img src="\img\attention_grey.png" alt="Found" style="width: 70%; height: auto;" />
+                    </th>
+
+                }
+            </tr>
+   
+        }
+    </table>
+}
+else
+{
+    <p>&nbsp;</p>
+}
+
+<style>
+
+    .title-top {
+        color: white;
+        text-align: center;
+        border: 2px solid white;
+        font-size: 1.5rem;
+        
+    }
+
+    
+</style>

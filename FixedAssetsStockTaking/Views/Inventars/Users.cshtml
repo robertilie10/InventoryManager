@@ -1,0 +1,389 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+@{
+    ViewData["Title"] = "Users";
+
+}
+
+<style>
+    th{
+    border-collapse: collapse;
+    border: 1px solid white;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: normal;
+    }
+
+    .button {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+    .down-buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 35%;
+        height: 14%;
+        margin: 0 auto;
+        bottom: 5%;
+        position: absolute;
+    }
+
+    .button:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.238rem #1196ad
+    }
+
+    .detailsValue {
+        font-size: 200%;
+        font-weight: bold;
+        color: #585d61;
+        top: 18%;
+        position: relative;
+    }
+
+    .detailsTitle {
+        margin-left: 0.5%;
+        position: absolute;
+        font-weight: bold;
+        color: #292c2e;
+        font-size: 100%;
+    }
+
+    .Logo {
+        font-size: 450%;
+        font-weight: bold;
+        text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    }
+
+    .textt1 {
+        font-size: 200%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+    }
+
+    .textt2 {
+        font-size: 100%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
+
+    .cont-det {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        position: absolute;
+    }
+
+    .det {
+        width: 20%;
+        height: 4rem;
+        background-color: white;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+    }
+
+    .details {
+        width: 95%;
+        height: 12%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 22%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .top-div {
+        position: relative;
+        width: 37%;
+        height: 5.8rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .subtop-div {
+        position: relative;
+        width: 27%;
+        height: 4.5rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .det:nth-child(1) {
+        margin-right: auto;
+    }
+
+    .det:nth-child(3) {
+        margin-left: auto;
+    }
+
+    .container-body{
+        width: 95%;
+        height: 60%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 57%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-top: 2rem;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+    }
+
+    @@media only screen and (max-width: 1366px) {
+
+        .button{
+            font-size:1.2rem!important
+        }
+
+        .detailsValue {
+            font-size: 180% !important;
+        }
+
+        .detailsTitle {
+            font-size: 80% !important;
+        }
+
+        .det {
+            height: 3rem !important;
+        }
+
+        .Logo {
+            font-size: 3rem !important;
+            margin: 0;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        .textt1 {
+            font-size: 1.3rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        .textt2 {
+            font-size: 0.7rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        body {
+            font-size: 14px;
+        }
+
+        .top-div {
+            max-width: 30rem;
+            font-size: 3rem !important;
+            max-height: 3.8rem;
+        }
+
+        .subtop-div {
+            max-width: 20rem;
+            font-size: 1rem !important;
+            max-height: 1.9rem;
+        }
+
+        .detailsValue {
+            font-size: 180% !important;
+        }
+
+        .detailsTitle {
+            font-size: 80% !important;
+        }
+
+        .users-table th{
+            font-size:1.5rem!important;
+        }
+    }
+
+    .users-table{
+        border-collapse: collapse;
+        border: 1px solid white;
+        background-color: #1196ad;
+        margin-top: 1%;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        width: 80%;
+    }
+</style>
+
+
+<div class="top-div">
+    <p class="Logo">LOGO HERE</p>
+</div>
+<div class="subtop-div">
+    <p class="textt1">Inventory Manager</p>
+    <p class="textt2">  v.1.0</p>
+</div>
+<div class="details">
+
+    <div class="cont-det" style="width:95%;">
+        @functions {
+            public string TruncateName(string name)
+            {
+                if (name.Length > 15)
+                {
+                    return name.Substring(0, 13) + "...";
+                }
+                else
+                {
+                    return name;
+                }
+            }
+        }
+        <div class="det" style="text-align:center;">
+            <div class="detailsTitle">Created by:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreatedBy)</p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Name:</div>
+            <p class="detailsValue">
+                @TruncateName(Model.Name)
+            </p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Created on:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreateDate)</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<body style="background-color:#1196ad;">
+</body>
+
+<div class="container-body">
+
+    <table class="users-table">
+        <tr style="color: white;">
+            <th style="border: 3px solid white;width: 6%;padding-bottom: 2%;font-weight:bold;">#</th>
+            <th style="border: 3px solid white;padding-bottom: 2%;font-weight:bold;">Name</th>
+            <th style="border: 3px solid white;padding-bottom: 2%;font-weight:bold;">Employee id</th>
+            <th style="border: 3px solid white;padding-bottom: 2%;font-weight:bold;">Username</th>
+            <th style="border: 3px solid white;padding-bottom: 2%;font-weight:bold;">Role</th>
+            <th style="border: 3px solid white;padding-bottom: 2%;font-weight:bold;">Actions</th>
+        </tr>
+        @{
+            var i = 0;
+        }
+        @foreach (var user in ViewData["User"] as List<User>)
+        {
+            i++;
+            <tr style="background-color:#aeecf7; font-family: Verdana">
+                <th style="border: 3px solid white;">@i</th>
+                <th style="border: 3px solid white;">@user.Name</th>
+                <th style="border: 3px solid white;">@user.EmployeeID</th>
+                <th style="border: 3px solid white;">@user.Username</th>
+                <th style="border: 3px solid white;">@user.RoleID</th>
+                <th style="border: 3px solid white;">
+                    <div class="actions">
+                        <a onclick ="Edit('@user.Username', @user.InventarID)">
+                            <img style="height: 4rem; width:4rem; cursor: pointer;" src="\img\form.png" alt="form"></img>
+                        </a>                   
+                        <a onclick="Delete('@user.Username', @user.InventarID)">
+                            <img style="height: 3rem; width:3rem; cursor: pointer;" src="\img\delete.png" alt="delete"></img>
+                        </a>
+                    </div>
+                </th>
+           </tr>
+        }
+    </table>
+    <div class="down-buttons">
+        @foreach (var item in ViewData["Inventar"] as List<Inventar>)
+        {
+            <a asp-action="Settings" asp-route-id=@item.ID style="width: 38%;height: 100%;">
+            <button class="button">
+                BACK
+            </button>
+            </a>
+            <a style="width: 38%;height: 100%;">
+            <button style="
+                    background-image: url(/img/user.png);
+                    background-repeat: no-repeat;
+                    background-size: 25.8% 81.8%;
+                    background-position-x: 95%;
+                    background-position-y: 50%;
+                    padding-right: 20%;" id="finishButton" class="button" onclick="OpenModal(@item.ID)">
+                ADD USER
+            </button>
+            </a>
+        }
+        
+    </div>
+</div>
+
+<div class="modal fade" id="UserModal" role="dialog">
+    <div class="modal-dialog" id="userModelDialog" style="height: 100%; width: 30%;">
+        @*VIEW*@
+    </div>
+</div>
+
+<div class="modal fade" id="DeleteModal" role="dialog">
+    <div class="modal-dialog" id="deleteModelDialog" style="width: 30%;height: 30%;">
+        @*VIEW*@
+    </div>
+</div>
+
+<div class="modal fade" id="EditModal" role="dialog">
+    <div class="modal-dialog" id="editModelDialog" style="width: 30%;height: 30%;">
+        @*VIEW*@
+    </div>
+</div>
+
+
+<script>
+
+    function OpenModal(itemId) {
+
+        $.get("@Url.Action("Create", "Users")?id=" + itemId, 
+            function (data) {
+                $("#userModelDialog").html(data);
+            });
+        $("#UserModal").modal("show");
+    }
+
+    function Delete(username, itemId){
+        console.log(itemId)
+        $.get("@Url.Action("Delete", "Users")?username=" + encodeURIComponent(username) + "&id=" + itemId,
+            function (data) {
+                $("#deleteModelDialog").html(data);
+            });
+        $("#DeleteModal").modal("show");
+    }
+
+    function Edit(username, itemId){
+        console.log(itemId)
+        $.get("@Url.Action("Edit", "Users")?username=" + encodeURIComponent(username) + "&id=" + itemId,
+            function (data) {
+                $("#editModelDialog").html(data);
+            });
+        $("#EditModal").modal("show");
+    }
+
+</script>

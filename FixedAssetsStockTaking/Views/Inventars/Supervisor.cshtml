@@ -1,0 +1,797 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+@{
+    ViewData["Title"] = "Supervisor";
+}
+<body style="background-color:#1194ad;">
+</body>
+
+<div class="top-div">
+    <p class="Logo">LOGO HERE</p>
+</div>
+<div class="subtop-div">
+    <p class="textt1">Inventory Manager</p>
+    <p class="textt2">  v.1.0</p>
+</div>
+<div class="details">
+
+    <div class="cont-det" style="width:95%;">
+        @functions {
+            public string TruncateName(string name)
+            {
+                if (name.Length > 15)
+                {
+                    return name.Substring(0, 13) + "...";
+                }
+                else
+                {
+                    return name;
+                }
+            }
+        }
+        <div class="det" style="text-align:center;">
+            <div class="detailsTitle">Created by:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreatedBy)</p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Name:</div>
+            <p class="detailsValue">
+                @TruncateName(Model.Name)
+            </p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Created on:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreateDate)</p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container-body">
+  <div class="right">
+    <div class="cards-container">
+        @{
+            var uniqueValues = new HashSet<string>();
+            foreach (var item in ViewData["MijlocFix"] as List<MijlocFix>)
+            {
+                uniqueValues.Add(item.Line);
+            }
+        }
+        @if (ViewData["ExtraLines"] != null)
+        {
+            foreach (var extra in ViewData["ExtraLines"] as List<ExtraLine>)
+            {
+                uniqueValues.Add(extra.MFLine);
+            }
+            @foreach (var value in uniqueValues)
+            {
+                var ok = 0;
+                var okk = 0;
+                if(value == "01D")
+                    {
+                        okk = 1;
+                    }
+                    <button class="inventare">
+                    
+                            <div class="title" data-line="@value">
+                               <p class="title-text">@value</p>
+                            </div>
+                            @{
+                                var k = 0;
+                            }
+                            @foreach (var y in ViewData["ExtraLines"] as List<ExtraLine>)
+                            {
+                                var c = 0;
+                                if (y.MFLine == value)
+                                {
+                                    @foreach (var x in ViewData["MijlocFix"] as List<MijlocFix>)
+                                    {
+                                        if (x.FoundLine == value)
+                                            c++;
+
+                                    }
+                                    if (c == 0)
+                                    {
+                                    <div class="empty-container">
+                                        <p>EMPTY</p>
+                                    </div>
+                                    <div class="separator"></div>
+                                    <div class="empty-container" style="top:10%">
+                                        <p>EMPTY</p>
+                                    </div>
+                                    }
+                                }
+                            }
+
+                        @foreach (var x in ViewData["MijlocFix"] as List<MijlocFix>)
+                        {                         
+                            if(x.FoundLine == value || (x.FoundLine == "-" && x.Line == value))
+                            {
+                              ok = 1;
+                            }
+                                if (x.Line == value)
+                                {
+                                    foreach (var y in ViewData["MijlocFix"] as List<MijlocFix>)
+                                    {
+                                        if ((y.Line == value && y.FoundLine == "-") || (y.Line == value && y.FoundLine == value) || (y.FoundLine == value && y.Line != value))
+                                            k++;
+                                    }
+                                    if (k == 0)
+                                    {
+                                            <div class="empty-container">
+                                                 <p>EMPTY</p>
+                                            </div>
+                                        <div class="separator"></div>
+                                            <div class="empty-container" style="top:10%">
+                                                 <p>EMPTY</p>
+                                            </div>
+                                        break;
+                                    }
+                                }
+
+                            if(ok == 0)
+                            {
+                              continue;
+                            }
+                            if (ok == 1 && x.Locked == "NO")
+                            {
+                                <div style="width: 100%;height: 29%;position: relative;top: -5%;">
+                                        <div class="container-lacat">
+                                            <p class="text1">UNLOCKED</p>
+                                            <img class="img" src="/img/unlocked.png"/>
+                                        </div>
+                                    </div>
+                            }
+                            if (ok == 1 && x.Locked == "YES")
+                            {
+                                <div style="width: 100%;height: 29%;position: relative;top: -5%;">
+                                        <div class="container-lacat">
+                                            <p class="text1">LOCKED</p>
+                                            <img class="img" src="/img/lock.png" />
+                                        </div>
+                                </div>
+                            }
+                                <div class="separator"></div>
+                                if (ok == 1)
+                                {
+                                    var c = 0;
+                                    var ck = 0;
+                                    var nc = 0;
+                                    foreach (var status in ViewData["MijlocFix"] as List<MijlocFix>)
+                                    {   
+                                        if(status.FoundLine == value || (status.Line == value && status.FoundLine == "-"))
+                                        {
+                                            if(status.Status == "To check")
+                                            {
+                                                c++;
+                                            }
+                                            if(status.Status == "Checked")
+                                            {
+                                                ck++;
+                                            }
+                                            if (status.Status == "-")
+                                            {
+                                                nc++;
+                                            }
+
+                                        }
+                                    }
+                                    if (c != 0)
+                                    {
+                                        <div class="row2">
+                                        <div style="width: 100%; height: 100%;display: flex;justify-content: center;align-items: center;">
+                                                <p class="text1">To check</p>
+                                                <img class="img2" src="/img/attention.png" />
+                                            </div>
+                                        </div>
+                                        break;
+                                    }
+                                    else if(ck == 0)
+                                    {
+                                        <div class="row2">
+                                            <div style="width: 100%; height: 100%;display: flex;justify-content: center;align-items: center;">
+                                                <p class="text1">Not finished</p>
+                                                <img class="img2" src="/img/warning_red.png" />
+                                            </div>
+                                        </div>
+                                        break;
+
+                                    }
+                                    else
+                                    {
+                                        <div class="row2">
+                                            <div style="width: 100%; height: 100%;display: flex;justify-content: center;align-items: center;">
+                                                <p class="text1">Checked</p>
+                                                <img class="img2" src="/img/check.png" />
+                                            </div>
+                                        </div>
+                                        break;
+                                    }                                  
+                            }                                                       
+                          break;
+                        }
+                </button>
+            }
+        }
+    </div>
+  </div>
+    <div class="left">
+        <form>
+            <input id="search" class="input" type="text" placeholder="Search.." />
+        </form>
+        <div id="partialLine" style="height: 100%;">
+       
+      </div>
+        <div class="down-buttons">
+            <a asp-action="Details" style="height:100%; width:30%;" asp-route-id=@Model.ID><button class="second-buttons">
+                    BACK
+                </button>
+            </a>
+            <a style="height:100%;width:30%;" asp-route-id=@Model.ID id="check">
+                <button class="second-buttons">
+                    CHECK
+                </button>
+            </a>
+            <a style="height:100%;width:30%;" asp-route-id=@Model.ID id="scrap">
+                <button class="second-buttons">
+                    SCRAP
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+
+    .empty-container{
+        font-size: 1.3rem;
+        height: 29%;
+        top: -5%;
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container-lacat{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .title-text{
+        font-size: 2.3rem;
+    }
+    .detailsValue {
+        font-size: 200%;
+        font-weight: bold;
+        color: #585d61;
+        top: 18%;
+        position: relative;
+    }
+
+    .detailsTitle {
+        margin-left: 0.5%;
+        position: absolute;
+        font-weight: bold;
+        color: #292c2e;
+        font-size: 100%;
+    }
+
+    footer {
+        line-height: 300% !important;
+    }
+
+ @@media only screen and (max-width: 1366px) {
+
+     .ggg tr{
+         height:2.5rem!important;
+     }
+
+     .notselected, .notselected{
+         height: 2.5rem!important;
+     }
+
+
+     .title-top{
+         font-size:1.1rem!important;
+     }
+
+     .empty-container{
+            font-size: 1rem !important;
+     }
+
+     .separator{
+         height:1px!important;
+     }
+
+     .text1{
+         font-size:1rem!important;
+            margin-left: 0.3rem !important;
+     }
+
+     .title-text{
+         font-size:1.7rem!important;
+     }
+
+        .second-buttons {
+            font-size:1.5rem!important;
+        }
+
+     .search2, .input{
+         font-size:2rem!important;
+     }
+
+        .detailsValue {
+            font-size: 180%!important;
+        }
+
+        .detailsTitle {
+            font-size: 80%!important;
+        }
+
+        .det {
+            height: 3rem !important;
+        }
+
+        .Logo {
+            font-size: 3rem !important;
+            margin: 0;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        .textt1 {
+            font-size: 1.3rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        .textt2 {
+            font-size: 0.7rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33) !important;
+        }
+
+        body {
+            font-size: 14px;
+        }
+
+        .top-div {
+            max-width: 30rem;
+            font-size: 3rem !important;
+            max-height: 3.8rem;
+        }
+
+        .subtop-div {
+            max-width: 20rem;
+            font-size: 1rem !important;
+            max-height: 1.9rem;
+        }
+
+        .detailsValue {
+            font-size: 180% !important;
+        }
+
+        .detailsTitle {
+            font-size: 80% !important;
+        }
+
+ }
+    
+    .search2:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #1196ad;
+    }
+
+    .input:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #1196ad;
+    }
+
+    .input, .search2 {
+        width: 95%;
+        height: 12%;
+        position: absolute;
+        top: 8%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        border: none;
+        font-size: 2.7rem;
+        text-align: center;
+        background-image: url(/img/lupa.png);
+        background-repeat: no-repeat;
+        background-position-x: 0.7%;
+        transition: border-color .35s ease-in-out,box-shadow .35s ease-in-out;
+    }
+
+    .search2{
+        width: 72%;
+        left: 39%;
+        background-size: 18% 100%;
+    }
+
+    .input{
+        width: 95%;
+        left: 50%;
+        background-size: 14% 100%;
+    }
+
+    .row2{
+        width: 100%;
+        height: 28.7%;
+        position: relative;
+        top: 5%;
+    }
+    .text1{
+        margin: 0;
+        width: 70%;
+        position: relative;
+        font-size: 1.3rem;
+    }
+
+    .img2 {
+        width: 24%;
+        position: relative;
+    }
+    .img{
+        width: 29%;
+        position: relative;
+    }
+    .separator {
+        height: 0.04%;
+        width: 60%;
+        margin-left: 20%;
+        background-color: black;
+        position: relative;
+    }
+
+
+    .title{
+        top: -10%;
+        padding-top: 1rem;
+        height: 22%;
+        position: relative;
+        width: 100%;
+        text-align: center;
+        border-top-left-radius: 1.5rem;
+        border-top-right-radius: 1.5rem;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .inventare {
+        height: 39.5%;
+        width: 14.3%;
+        margin-top: 2.5%;
+        margin-bottom: 2%;
+        margin-left: 2.8%;
+        background-color: white;
+        margin-right: 2.8%;
+        padding: 0;
+        border: 0;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+    }
+
+    .cards-container::-webkit-scrollbar-track {
+        border-radius: 0.125rem;
+        background-color: #aeecf7;
+    }
+
+    .cards-container::-webkit-scrollbar {
+        width: 0.2rem;
+        height: 2rem;
+        border-radius: 0.125rem;
+    }
+
+    .cards-container::-webkit-scrollbar-thumb {
+        border-radius: 0.125rem;
+        background-color: #1194ad;
+    }
+    
+
+    .cards-container{
+        margin-right: 2rem;
+        margin-left: 2.62%;
+        margin-top: 0.7%;
+        height: 98%;
+        width: 94%;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+    .second-buttons:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+    }
+
+    .inventare:hover{
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+    }
+
+    .down-buttons{
+        position: absolute;
+        width: 97%;
+        height: 11%;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .second-buttons {
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+        text-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        border: 0.17rem solid #1196ad;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #585d61;
+        float: left;
+        bottom: 0;
+        position: relative;
+    }
+
+    .right {
+        position: relative;
+        height: 100%;
+        width: 67%;
+        border-radius: 0.5rem;
+        float: right;
+        background-color: #aeecf7;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+    }
+
+    .left {
+        position: relative;
+        height: 100%;
+        width: 31%;
+        border-radius: 0.5rem;
+        float: left;
+        background-color: #aeecf7;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+    }
+
+    .container-body {
+        width: 95%;
+        height: 60%;
+        position: absolute;
+        top: 57%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-top: 2rem;
+        border-radius: 0.5rem;
+    }
+
+
+    .Logo {
+        font-size: 450%;
+        font-weight: bold;
+        text-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    }
+
+    .textt1 {
+        font-size: 200%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+    }
+
+    .textt2 {
+        font-size: 100%;
+        font-weight: bold;
+        text-shadow: 0 7px 8px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
+    
+
+    .det:nth-child(1) {
+        margin-right: auto;
+    }
+
+    .det:nth-child(3) {
+        margin-left: auto;
+    }
+
+    .cont-det {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        position: absolute;
+    }
+
+    .det {
+        width: 20%;
+        height: 4rem;
+        background-color: white;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+    }
+
+    .details {
+        width: 95%;
+        height: 12%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 22%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .top-div {
+        position: relative;
+        width: 37%;
+        height: 5.8rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .subtop-div {
+        position: relative;
+        width: 27%;
+        height: 4.5rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+</style>
+
+<script>
+    $(document).ready(function () {
+        var inventoryId = @Model.ID;
+        var selectedCODS = [];
+        var line = "";
+     
+        $("#check").on("click", function () {
+            $(".selected").each(function () {
+                selectedCODS.push($(this).data("cod"));
+            });
+            $(".Bselected .title").each(function () {
+                line = $(this).data("line");
+                console.log(line);
+            });
+            if (selectedCODS.length > 0 && inventoryId !== "") {
+                console.log(line);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UpdateStatus")",
+                    data: { id: inventoryId, cods: selectedCODS, line: line },
+                    success: function (result) {
+                        $("#partialLine").html(result);
+                        if ($(".ggg").find("tr").length === 1) {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                       
+                });
+            }
+             return false;
+        });
+        $("#scrap").on("click", function () {
+            $(".selected").each(function () {
+                selectedCODS.push($(this).data("cod"));
+            });
+            $(".Bselected .title").each(function () {
+                line = $(this).data("line");
+                console.log(line);
+            });
+            if (selectedCODS.length > 0 && inventoryId !== "") {
+                console.log(line);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Scrap")",
+                    data: { id: inventoryId, cods: selectedCODS, line: line },
+                    success: function (result) {
+                        $("#partialLine").html(result);
+                        if ($(".ggg").find("tr").length === 1) {
+                            location.reload();
+                        }
+                        
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }
+            return false;
+        });
+        
+    });
+    
+
+    const buttons = document.querySelectorAll('.inventare');
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+            buttons.forEach(btn => {
+                btn.classList.remove("Bselected");
+            });
+         $(this).toggleClass("Bselected");
+
+            var searchInput = $("#search");
+            if (searchInput.hasClass("input")) {
+                searchInput.removeClass("input");
+                searchInput.toggleClass("search2");
+            }
+
+         var inventoryId = @Model.ID;
+         var line = $(this).closest(".inventare").find(".title p").text();
+            if (line !== "" && inventoryId !== "") {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Line")",
+                    data: { id: inventoryId, line: line },
+                    success: function (result) {
+                        $("#partialLine").html(result);
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }
+            return false;       
+        });     
+    });
+
+
+    function filterCards(searchText) {
+        var searchValue = searchText.toLowerCase().trim();    
+        $('.inventare').each(function () {
+            var cardContent = $(this).text().toLowerCase();
+            if (cardContent.indexOf(searchValue) !== -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#search').on('keyup', function () {
+            var searchText = $(this).val();
+            filterCards(searchText);
+        });
+    });
+
+    function handleKeyPress(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            const searchItem = document.querySelector('.search');
+            searchItem.innerText = '';
+            return false;
+        }
+    }
+</script>

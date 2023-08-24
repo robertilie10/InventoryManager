@@ -1,0 +1,30 @@
+﻿@model string
+
+    @if (Model == "unlocked")
+    {
+        <div style="position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    margin-bottom: 0.5rem">
+            <img class="lacat" style="height: 4.8rem;" src="\img\unlocked.png" alt="check">
+        </div>
+    }
+    @if (Model == "locked")
+    {
+        <div style="position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        margin-bottom: 0.5rem">
+           <img class="lacat" style="height: 4.8rem;" src="\img\lock_red.png" alt="check">
+        </div>
+    }
+
+    <style>
+
+        @@media only screen and (max-width: 1366px) {
+            .lacat{
+                height:3.5rem!important;
+            }
+        }
+
+    </style>

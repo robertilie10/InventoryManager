@@ -1,0 +1,109 @@
+﻿@model FixedAssetsStockTaking.Models.User
+
+@{
+    Layout = "";
+}
+
+<div class="modal-fade" id="ModalCreate" style="height:100%">
+    <div class="modal-dialog" style="height:100%">
+
+        <div class="modal-content" id="delete">
+
+            <h3 style=" position: relative;
+                        top: 23%;
+                        font-size: 2rem;
+                        text-align: center;">
+                Are you sure you want to delete @Model.Username ?
+            </h3>
+
+            <form asp-action="Delete" style="height:80%; width:100%;">
+                    <div class="form-group" style="display: none;">
+                        <input asp-for="Username" class="form-control" />
+                        <input asp-for="InventarID" class="form-control" />
+                    </div>
+                    <div id="down">
+                        <input type="submit" value="YES" id="yes" />
+                        <button type="button" value="CLOSE" id="no" data-bs-dismiss="modal"
+                                style="">
+                            CLOSE
+                        </button>
+                    </div>                  
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<style>
+
+    .modal-dialog {
+        max-width: none !important;
+    }
+
+    @@media only screen and (max-width: 1366px) {
+
+        .modal-content h3 {
+            font-size: 1.4rem !important;
+        }
+
+        #yes, #no {
+            font-size: 1.5rem !important;
+        }
+    }
+
+    #down{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        position: relative;
+        top: 53%;
+        height:27%;
+    }
+
+    #yes, #no{
+        width: 30%;
+        height: 100%;
+        box-shadow: 0 0 0.313rem 0.018rem black;
+        text-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        border: 0.17rem solid #1196ad;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+
+        #no:hover {
+            border: 0.12rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+        }
+
+        #yes:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+        }
+
+    #delete {
+        position: relative;
+        display: block;
+        width: 100%;
+        pointer-events: auto;
+        background-color: white;
+        background-clip: padding-box;
+        border: 1px solid #1196ad;
+        border-radius: 1.5rem;
+        outline: 0;
+        height: 100%;
+        top: 90%;
+    }
+
+    .modal::-webkit-scrollbar {
+        display: none;
+    }
+
+    .modal-dialog {
+        max-width: 500px;
+    }
+</style>

@@ -1,0 +1,181 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+@{
+    var i = 0;
+}
+@foreach (var x in ViewData["toate"] as List<MijlocFix>)
+{
+    i++;
+    if (x.Locked == "YES")
+    {
+        <div class="unlock"><button class="b-unlock">UNLOCK</button></div>
+        break;
+    }
+    if (x.Locked == "NO")
+    {
+        <div class="unlock"><button class="b-unlock">LOCK</button></div>
+        break;
+    }
+}
+
+<div class="partial">
+    
+    <table class="ggg">
+        <tr style="height: 3rem; background-color: #1194ad; color:white;">
+            <th class="title-top" style="width:15rem;">CODE</th>
+            <th class="title-top" style="width:40rem;">ORIGIN</th>
+            <th class="title-top" style="width:64rem;">FOUND LINE</th>
+            <th class="title-top" style="width:20rem;">STATUS</th>
+        </tr>     
+            @foreach (var mijlocFix in ViewData["test"] as List<MijlocFix>)
+            {
+                i++;
+                <tr  class="notselected" style="margin-bottom:5%; height:3rem"  data-cod="@mijlocFix.COD.Trim()">
+                    <th class="title-top" style="width:15rem; color: black;">@mijlocFix.COD.Trim()</th>
+                    <th class="title-top" style="width:40rem; color: black;">@mijlocFix.Line</th>
+                    <th id="CodHere" class="title-top" style="width:28rem; color: black;">@mijlocFix.FoundLine</th>
+                    <th id="LogoHere" class="title-top status-cell" style="width:4.7rem; color: black;">
+                            @if (@mijlocFix.Status == "To check")
+                            {
+                            <span class="tooltiptext">To check</span>
+                            <img src="\img\attention.png" alt="Att" style="width: 30%; height: auto;" />
+                        
+                            }
+                            else if (mijlocFix.Status == "Checked")
+                            {
+                            <span class="tooltiptext">Checked</span>
+                            <img src="\img\check.png" alt="check" style="width: 30%; height: auto;" />
+                       
+                            }
+                            else
+                            {
+                            <span class="tooltiptext">Not scanned</span>
+                            <img src="\img\warning_red.png" alt="war" style="width: 30%; height: auto;" />
+                        
+                            }
+                    </th>
+                </tr>
+            }
+        
+    </table>
+</div>
+
+<style>
+
+    .b-unlock{
+        width: 100%;
+        height: 100%;
+        float: right;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+        text-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        border: 0.17rem solid #1196ad;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #585d61;
+    }
+
+    .unlock{
+        position: absolute;
+        width: 22%;
+        height: 11%;
+        right: 1.5%;
+        top: 3%;
+    }
+
+    .b-unlock:hover{
+            border: 0.12rem solid #1196ad;
+            box-shadow: 0 0 0.313rem 0.138rem #1196ad;
+    }
+
+    .tooltiptext {
+        display: none;
+        width: 3rem;
+        position: absolute;
+        right: 4rem;
+        background-color: white;
+        color: black;
+        text-align: center;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-weight: normal;
+    }
+
+    #LogoHere:hover .tooltiptext {
+        display: block;
+    }
+
+    .notselected {
+        background-color: #aeecf7;
+    }
+
+    .selected {
+        background-color: #ede777;
+    }
+    .ggg {
+        border-collapse: collapse;
+        height: 2rem;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        overflow-y: auto;
+        font-size: 1.6rem;
+    }
+
+    .partial::-webkit-scrollbar-track {
+        border-radius: 0.125rem;
+        background-color: #aeecf7;
+    }
+
+    .partial::-webkit-scrollbar {
+        width: 0.2rem;
+        height: 2rem;
+        border-radius: 0.125rem;
+    }
+
+    .partial::-webkit-scrollbar-thumb {
+        border-radius: 0.125rem;
+        background-color: #1194ad;
+    }
+
+    .partial {
+        position: relative;
+        top: 14%;
+        width: 94%;
+        margin: 1rem;
+        text-align: center;
+        overflow-y: auto;
+        border: 0.3rem solid white;
+        height: 68%;
+    }
+</style>
+
+<script> 
+    
+    $(".ggg tr").click(function () {
+        var line=$(this).closest("tr").data("line");
+        $(this).toggleClass("selected");
+    });
+
+    $(".b-unlock").on("click", function () {
+        var inventoryId = @Model.ID;
+        $(".Bselected .title").each(function () {
+            line = $(this).data("line");
+            console.log(line);
+        });
+        if (inventoryId !== "") {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("LockUnlock")",
+                data: { id: inventoryId, line: line },
+                success: function (result) {
+                    $("#partialLine").html(result);
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error");
+                }
+            });
+        }
+        //return false;
+    });
+
+</script>

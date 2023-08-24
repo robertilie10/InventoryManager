@@ -1,0 +1,321 @@
+﻿@model FixedAssetsStockTaking.Models.Inventar
+
+@{
+    ViewData["Title"] = "Settings";
+}
+  <div class="overlay"></div>
+
+<div class="top-div">
+    <p class="Logo">LOGO HERE</p>
+</div>
+
+<div class="subtop-div">
+    <p class="textt1">Inventory Manager</p>
+    <p class="textt2">  v.1.0</p>
+</div>
+
+  <body style="background-color:#1196ad;">
+  </body>
+<div class="details">
+
+    <div class="cont-det" style="width:95%;">
+        @functions {
+            public string TruncateName(string name)
+            {
+                if (name.Length > 15)
+                {
+                    return name.Substring(0, 13) + "...";
+                }
+                else
+                {
+                    return name;
+                }
+            }
+        }
+        <div class="det" style="text-align:center;">
+            <div class="detailsTitle">Created by:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreatedBy)</p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Name:</div>
+            <p class="detailsValue">
+                @TruncateName(Model.Name)
+            </p>
+        </div>
+        <div class="det" style="text-align:center">
+            <div class="detailsTitle">Created on:</div>
+            <p class="detailsValue">@Html.DisplayFor(model => model.CreateDate)</p>
+        </div>
+
+    </div>
+
+</div>
+
+    <div class="container-body">
+        <div class="cont-principal-buttons">
+            <a class="principal-buttons" asp-action="Details" asp-route-id=@Model.ID><button class="box">INVENTORY</button></a>
+        <a onclick="OpenModal(@Model.ID)" id="openn" class="principal-buttons"><button class="box">FILES</button></a>
+        <a class="principal-buttons" asp-action="RevenueCenters" asp-route-id=@Model.ID><button class="box">REVENUE CENTERS</button></a>
+        <a class="principal-buttons" asp-action="Users" asp-route-id=@Model.ID><button class="box">USERS</button></a>
+            
+         </div>
+
+    </div>
+
+
+<div class="modal fade" id="FilesModal" role="dialog">
+    <div class="modal-dialog" id="filesModelDialog">
+        @*VIEW*@
+    </div>
+</div>
+
+<script>
+
+    function OpenModal(itemId) {
+
+        $.get("@Url.Action("Files", "Inventars")?id=" + itemId,
+            function (data) {
+                $("#filesModelDialog").html(data);
+            });
+        $("#FilesModal").modal("show");
+    }
+
+
+</script>
+
+<style>
+
+    @@media only screen and (max-width: 1366px) {
+
+        .box{
+            max-width: 14rem;
+            max-height: 14rem;
+            font-size: 1.7rem!important;
+        }
+
+        .det {
+            max-height: 3rem;
+        }
+
+        .Logo {
+            font-size: 3rem!important;
+            margin: 0;
+        }
+
+        .textt1 {
+            font-size: 1.3rem !important;
+            text-shadow: 0 4px 3px rgb(0 0 0 / 0.33);
+        }
+
+        .textt2 {
+            font-size: 0.7rem !important;
+        }
+
+        body {
+            font-size: 14px;
+        }
+
+        .top-div {
+            max-width: 30rem;
+            font-size: 3rem !important;
+            max-height: 3.8rem;
+        }
+
+        .subtop-div {
+            max-width: 20rem;
+            font-size: 1rem !important;
+            max-height: 1.9rem;
+        }
+
+        .detailsValue {
+            font-size: 180% !important;
+        }
+
+        .detailsTitle {
+            font-size: 80% !important;
+        }
+    }
+
+    .det {
+        width: 20%;
+        height: 4rem;
+        background-color: white;
+        border-radius: 0.5rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+    }
+
+
+        .det:nth-child(1) {
+            margin-right: auto;
+        }
+
+        .det:nth-child(3) {
+            margin-left: auto;
+        }
+
+    .cont-det {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        position: absolute;
+    }
+
+    .details {
+        width: 95%;
+        height: 12%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 22%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Change the alpha value to control the darkness */
+        z-index: 9999; /* Make sure the overlay is above everything else */
+    }
+
+
+    .modal-close {
+        position: absolute;
+        top: 0rem;
+        right: 1rem;
+        font-size: 2rem;
+        cursor: pointer;
+    }
+
+    .body.modal-open {
+        overflow: hidden;
+    }
+
+    .modal-background {
+        background-color: rgba(0, 0, 0, 0.6);
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9998;
+        /* Intunecam restul paginii folosind background semi-transparent */
+    }
+
+    .top-div {
+        position: relative;
+        width: 37%;
+        height: 5.8rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .subtop-div {
+        position: relative;
+        width: 27%;
+        height: 4.5rem;
+        text-align: center;
+        margin: 0 auto;
+        clear: left;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+
+    .Logo {
+        font-size: 450%;
+        font-weight: bold;
+        text-shadow: 0 2px 5px rgb(0 0 0 / 0.33);
+    }
+
+    .textt1 {
+        font-size: 200%;
+        font-weight: bold;
+        text-shadow: 0 2px 5px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+    }
+
+    .textt2 {
+        font-size: 100%;
+        font-weight: bold;
+        text-shadow: 0 2px 5px rgb(0 0 0 / 0.33);
+        margin: 0;
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
+
+    .detailsValue {
+        font-size: 200%;
+        font-weight: bold;
+        color: #585d61;
+        top: 18%;
+        position: relative;
+    }
+
+    .detailsTitle {
+        margin-left: 0.5%;
+        position: absolute;
+        font-weight: bold;
+        color: #292c2e;
+        font-size: 100%;
+    }
+
+    .box {
+        width: 20rem;
+        height: 20rem;
+        background-color: white;
+        margin: 3rem;
+        border-radius: 1.8rem;
+        border: 0.17rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.068rem black;
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #585d61;
+        overflow: hidden;
+    }
+
+    .box:hover {
+        border: 0.12rem solid #1196ad;
+        box-shadow: 0 0 0.313rem 0.238rem #1196ad;
+    }
+
+    .container-body {
+        width: 95%;
+        height: 60%;
+        background-color: #aeecf7;
+        position: absolute;
+        top: 57%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-top: 2rem;
+        box-shadow: 0 8px 15px rgb(0 0 0 / 0.5);
+        border-radius: 0.5rem;
+        align-items: center;
+        display: flex;
+        justify-content:center;
+    }
+
+    .cont-principal-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+</style>
+
